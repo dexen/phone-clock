@@ -105,7 +105,7 @@ body {
 	<fieldset class="tpc-battery-display" style="visibility: hidden">
 		<span class="tpc-battery-value">-?%</span>
 		<progress class="tpc-battery-progress" max="100" value="-1" style="width: 3ex; height: 2ex; color: #f00; display: none"></progress>
-		<div class="tpc-battery-battery-box" style="width: 3ex; Xheight: 1.5ex; border: .21ex solid #f00; display: inline-block; margin-left: .0ex; border-left-style: dashed; box-sizing: initial; vertical-align: middle; margin-bottom: .2ex">
+		<div class="tpc-battery-battery-box" style="width: 3ex; Xheight: 1.5ex; border: .21ex solid #f00; display: inline-block; margin-left: .0ex; border-left-style: dashed; box-sizing: initial; vertical-align: middle; margin-bottom: .2ex; border-radius: .19ex">
 			<div class="tpc-battery-battery-fill" style="width: 0ex; height: 1ex; background: #f00; margin: .1ex; margin-left: auto; "></div>
 		</div>
 		
