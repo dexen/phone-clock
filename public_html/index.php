@@ -117,7 +117,7 @@ body {
 		<a href="" class="tpc-time-value">-1:-2:-3</a>
 	</fieldset>
 	<fieldset class="tpc-debug-display">
-		<a href="">
+		<a href="#" onclick="toggleDisplayConnection(); return false;">
 		<span class="tpc-display-jitter-value" style="display: none;">-222</span>
 		<span style="display: none;">;;</span>
 		<span class="tpc-heartbeat-jitter-value" style="display: none;">-333</span>
@@ -129,6 +129,19 @@ body {
 
 <script>
 "use strict";
+var apply_correction =
+	(document.cookie
+		.split("; ")
+		.find((row) => row.startsWith("apply_correction="))
+		?.split("=")[1]) || 1;
+apply_correction = Number(apply_correction);
+document.cookie = 'apply_correction=' + apply_correction;
+console.log(document.cookie);
+function toggleDisplayConnection() {
+	apply_correction = (apply_correction+1)%2;
+	document.cookie = 'apply_correction=' + apply_correction;
+	window.updateDisplay();
+};
 (function(thePhoneClockEl) {
 	"use strict";
 
@@ -212,10 +225,13 @@ function POORMANSNTP2(Ev)
 	var offset = servertimestamp - localtimestamp + rqmidpoint;
 
 	var offsetaverage = updateCalcAvg(offsetsamples, NSAMPLES, offset);
-THE_CORRECTION = offsetaverage;
 	var RMS = updateCalcRms(jittersamples, NSAMPLES, offset-offsetaverage);
 
-	if (offsetaverage >= 0)
+	THE_CORRECTION = 0;
+	if (apply_correction) {
+		THE_CORRECTION = offsetaverage;
+		var note = 'correction: ' + Math.round(offsetaverage) + ' # jitter: ' + Math.round(RMS*100)/100; }
+	else if (offsetaverage >= 0)
 		var note = 'LATE: ' + Math.round(offsetaverage) + ' # jitter: ' + Math.round(RMS*100)/100;
 	else
 		var note = 'EARLY: ' + Math.round(-offsetaverage) + ' # jitter: ' + Math.round(RMS*100)/100;
@@ -266,6 +282,9 @@ function POORMANSNTP()
 	};
 
 	displayTime();
+	window.updateDisplay = function() {
+		displayTime();
+	};
 	heartbeatTimer = window.setInterval(heartbeat, 1);
 })(document.getElementById('the-phone-clock'));
 </script>
