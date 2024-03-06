@@ -19,13 +19,11 @@ header('Pragma: no-cache');
 	font-family: monospace, sans-serif;
 	line-height: 53%;
 	font-size: 800%;
-font-size: 20vw;
+	font-size: 20vw;
 }
 #the-phone-clock .tpc-time-display {
-	XXwidth: 9.33ex;
-	XXpadding: .33ex .66ex;
-padding: 10px;
-border-width: 0;
+	padding: 10px;
+	border-width: 0;
 	white-space: nowrap;
 	font-style: italic;
 	font-variant-numeric: tabular-nums lining-nums;
@@ -38,24 +36,22 @@ border-width: 0;
 }
 
 #the-phone-clock .tpc-time-display-shadow {
-	XXwidth: 9.33ex;
-	XXpadding: .33ex .66ex;
-padding: 10px;
-border-width: 0;
+	padding: 10px;
+	border-width: 0;
 	white-space: nowrap;
 	font-style: italic;
 	font-variant-numeric: tabular-nums lining-nums;
 	color: #f00;
-position: absolute;
+	position: absolute;
 	z-index: -33;
-filter: blur(12px) drop-shadow(6px 6px 12px #f00);
+	filter: blur(12px) drop-shadow(6px 6px 12px #f00);
 }
 
 #the-phone-clock .tpc-debug-display {
 	font-size: 22%;
 	padding: .33ex .66ex;
-padding: 10px;
-border-width: 0;
+	padding: 10px;
+	border-width: 0;
 	white-space: nowrap;
 	font-style: italic;
 	color: #f00;
@@ -67,8 +63,8 @@ border-width: 0;
 #the-phone-clock .tpc-battery-display {
 	font-size: 22%;
 	padding: .33ex .66ex;
-padding: 10px;
-border-width: 0;
+	padding: 10px;
+	border-width: 0;
 	white-space: nowrap;
 	font-style: italic;
 	color: #f00;
