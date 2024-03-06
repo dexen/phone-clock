@@ -106,7 +106,7 @@ body {
 		<span class="tpc-battery-value">-?%</span>
 		<progress class="tpc-battery-progress" max="100" value="-1" style="width: 3ex; height: 2ex; color: #f00; display: none"></progress>
 		<div class="tpc-battery-battery-box" style="width: 3ex; Xheight: 1.5ex; border: .21ex solid #f00; display: inline-block; margin-left: .0ex; border-left-style: dashed; box-sizing: initial; vertical-align: middle; margin-bottom: .2ex; border-radius: .18ex">
-			<div class="tpc-battery-battery-fill" style="width: 0ex; height: 1ex; background: #f00; margin: .1ex; margin-left: auto; "></div>
+			<div class="tpc-battery-battery-fill" style="position: relative; width: 0ex; height: 1ex; background: #f00; margin: .1ex; margin-left: auto;  color: black;"></div>
 		</div>
 		
 	</fieldset>
@@ -274,6 +274,10 @@ function POORMANSNTP()
 				theBatteryLevelEl.innerHTML = Math.round(battery.level * 100) + '%';
 				theBatteryProgressEl.value = (battery.level * 100);
 				theBatteryBatteryFillEl.style.width = (battery.level * 2.77) + 'ex';
+				if (battery.charging)
+					theBatteryBatteryFillEl.innerHTML = '<div style="position: absolute; top: -.363ex; right: .1ex; font-weight: bold; font-size: 66%">+</div>';
+				else
+					theBatteryBatteryFillEl.innerHTML = null;
 			}); }
 		if (theDatetime.getMilliseconds() > 900)
 			window.setTimeout(
