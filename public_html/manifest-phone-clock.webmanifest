@@ -3,7 +3,7 @@
 	"display": "fullscreen",
 	"name": "Digital Clock",
 	"short_name": "Clock",
-	"description": "Display an elegant and simple digital clock",
+	"description": "Display an elegant and accurate digital clock",
 	"scope": "/",
 	"theme_color": "#000",
 	"start_url": "/clock/",
