@@ -118,10 +118,10 @@ body {
 	</fieldset>
 	<fieldset class="tpc-debug-display">
 		<a href="">
-		<span class="tpc-display-jitter-value">-222</span>
-		;;
-		<span class="tpc-heartbeat-jitter-value">-333</span>
-		//
+		<span class="tpc-display-jitter-value" style="display: none;">-222</span>
+		<span style="display: none;">;;</span>
+		<span class="tpc-heartbeat-jitter-value" style="display: none;">-333</span>
+		<span style="display: none;">//</span>
 		<span class="tpc-serverdiff-value">-444</span>
 		</a>
 	</fieldset>
