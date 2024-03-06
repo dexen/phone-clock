@@ -21,9 +21,10 @@ header('Pragma: no-cache');
 }
 
 #the-phone-clock {
+	font-family: monospace, sans-serif;
 	line-height: 53%;
 	font-size: 800%;
-font-size: 25vw;
+font-size: 20vw;
 }
 #the-phone-clock .tpc-time-display {
 	XXwidth: 9.33ex;
@@ -31,7 +32,6 @@ font-size: 25vw;
 padding: 10px;
 border-width: 0;
 	white-space: nowrap;
-	font-family: "7-S3GM3N7 D15plaY", mono;
 	font-style: italic;
 	font-variant-numeric: tabular-nums lining-nums;
 	color: #f00 !important;
@@ -48,7 +48,6 @@ border-width: 0;
 padding: 10px;
 border-width: 0;
 	white-space: nowrap;
-	font-family: "7-S3GM3N7 D15plaY", mono;
 	font-style: italic;
 	font-variant-numeric: tabular-nums lining-nums;
 	color: #f00;
@@ -63,7 +62,6 @@ filter: blur(12px) drop-shadow(6px 6px 12px #f00);
 padding: 10px;
 border-width: 0;
 	white-space: nowrap;
-	font-family: "7-S3GM3N7 D15plaY", mono;
 	font-style: italic;
 	color: #f00;
 }
@@ -77,7 +75,6 @@ border-width: 0;
 padding: 10px;
 border-width: 0;
 	white-space: nowrap;
-	font-family: "7-S3GM3N7 D15plaY", mono;
 	font-style: italic;
 	color: #f00;
 	text-align: right;
@@ -276,7 +273,7 @@ function POORMANSNTP()
 				theBatteryProgressEl.value = (battery.level * 100);
 				theBatteryBatteryFillEl.style.width = (battery.level * 2.77) + 'ex';
 				if (battery.charging)
-					theBatteryBatteryFillEl.innerHTML = '<div style="position: absolute; top: -.363ex; right: .1ex; font-weight: bold; font-size: 66%">+</div>';
+					theBatteryBatteryFillEl.innerHTML = '<div style="position: absolute; top: -2.63ex; right: .2ex; font-weight: bold; font-size: 66%">+</div>';
 				else
 					theBatteryBatteryFillEl.innerHTML = null;
 			}); }
