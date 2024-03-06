@@ -70,12 +70,7 @@ header('Pragma: no-cache');
 	color: #f00;
 	text-align: right;
 }
-#the-phone-clock .tpc-battery-progress,
-#the-phone-clock .tpc-battery-progress::-moz-progress-bar,
-#the-phone-clock .tpc-battery-progress::-webkit-progress-value
-{
-	background-color: red !important;
-}
+
 html, body {
 	height: 100%;
 	margin: 0;
@@ -93,7 +88,6 @@ body {
 <center id="the-phone-clock">
 	<fieldset class="tpc-battery-display" style="visibility: hidden">
 		<span class="tpc-battery-value">-?%</span>
-		<progress class="tpc-battery-progress" max="100" value="-1" style="width: 3ex; height: 2ex; color: #f00; display: none"></progress>
 		<div class="tpc-battery-battery-box" style="width: 3ex; Xheight: 1.5ex; border: .21ex solid #f00; display: inline-block; margin-left: .0ex; border-left-style: dashed; box-sizing: initial; vertical-align: middle; margin-bottom: .2ex; border-radius: .18ex">
 			<div class="tpc-battery-battery-fill" style="position: relative; width: 0ex; height: 1ex; background: #f00; margin: .1ex; margin-left: auto;  color: black;"></div>
 		</div>
@@ -162,7 +156,6 @@ console.log('could not obtain wake lock');
 	var theServerdiffEl = theDebugEl.getElementsByClassName('tpc-serverdiff-value')[0];
 	var theBatteryDisplayEl = thePhoneClockEl.getElementsByClassName('tpc-battery-display')[0];
 	var theBatteryLevelEl = thePhoneClockEl.getElementsByClassName('tpc-battery-value')[0];
-	var theBatteryProgressEl = thePhoneClockEl.getElementsByClassName('tpc-battery-progress')[0];
 	var theBatteryBatteryBoxEl = thePhoneClockEl.getElementsByClassName('tpc-battery-battery-box')[0];
 	var theBatteryBatteryFillEl = thePhoneClockEl.getElementsByClassName('tpc-battery-battery-fill')[0];
 
@@ -263,7 +256,6 @@ function POORMANSNTP()
 				if (battery.chargingTime == 0)
 					theBatteryDisplayEl.style.visibility = 'hidden';
 				theBatteryLevelEl.innerHTML = Math.round(battery.level * 100) + '%';
-				theBatteryProgressEl.value = (battery.level * 100);
 				theBatteryBatteryFillEl.style.width = (battery.level * 2.77) + 'ex';
 				if (battery.charging)
 					theBatteryBatteryFillEl.innerHTML = '<div style="position: absolute; top: -2.63ex; right: .2ex; font-weight: bold; font-size: 66%">+</div>';
