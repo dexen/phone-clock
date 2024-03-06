@@ -21,6 +21,7 @@ header('Pragma: no-cache');
 }
 
 #the-phone-clock {
+	line-height: 53%;
 	font-size: 800%;
 font-size: 25vw;
 }
