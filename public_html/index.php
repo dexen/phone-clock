@@ -252,7 +252,7 @@ function POORMANSNTP()
 		theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 100;
 		theTimeValueEl.innerHTML = timeAsText(theDatetime);
 		theShadowTimeValueEl.innerHTML = theTimeValueEl.innerHTML;
-		POORMANSNTP();
+		window.setTimeout(POORMANSNTP, 11);
 	};
 	function heartbeat() {
 		var theDatetime = new Date();
