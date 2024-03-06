@@ -15,11 +15,6 @@ header('Pragma: no-cache');
 <style>
 * { box-sizing: border-box; }
 
-@Xfont-face {
-	font-family: "7-S3GM3N7 D15plaY";
-	src: url("7-s3gm3n7-d15play.ttf") format("truetype"), url("7-s3gm3n7-d15play.otf"), format("opentype");
-}
-
 #the-phone-clock {
 	font-family: monospace, sans-serif;
 	line-height: 53%;
