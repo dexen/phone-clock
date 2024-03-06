@@ -121,6 +121,8 @@ body {
 		<span class="tpc-display-jitter-value">-222</span>
 		;;
 		<span class="tpc-heartbeat-jitter-value">-333</span>
+		//
+		<span class="tpc-serverdiff-value">-444</span>
 		</a>
 	</fieldset>
 </center>
@@ -148,6 +150,7 @@ body {
 	var theDebugEl = thePhoneClockEl.getElementsByClassName('tpc-debug-display')[0];
 	var theDisplayJitterValueEl = theDebugEl.getElementsByClassName('tpc-display-jitter-value')[0];
 	var theHeartbeatJitterValueEl = theDebugEl.getElementsByClassName('tpc-heartbeat-jitter-value')[0];
+	var theServerdiffEl = theDebugEl.getElementsByClassName('tpc-serverdiff-value')[0];
 	var theBatteryDisplayEl = thePhoneClockEl.getElementsByClassName('tpc-battery-display')[0];
 	var theBatteryLevelEl = thePhoneClockEl.getElementsByClassName('tpc-battery-value')[0];
 	var theBatteryProgressEl = thePhoneClockEl.getElementsByClassName('tpc-battery-progress')[0];
@@ -159,11 +162,71 @@ body {
 	theTimeValueEl.innerHTML = -1; // '-2:-3:-4';
 	theShadowTimeValueEl.innerHTML = theTimeValueEl.innerHTML;
 
+	var offsetsamples = [];
+	var jittersamples = [];
+
+function updateCalcRms(samples, nsamples, newValue)
+{
+	while (samples.length >= nsamples)
+		samples.shift();
+	samples.push(newValue);
+
+	var acc = 0;
+	for (var n = samples.length-1; n>=0; --n)
+		acc = acc + samples[n]*samples[n];
+
+	return Math.sqrt((1/samples.length) * acc);
+};
+
+function updateCalcAvg(samples, nsamples, newValue)
+{
+	while (samples.length >= nsamples)
+		samples.shift();
+	samples.push(newValue);
+
+	var acc = 0;
+	for (var n = samples.length-1; n>=0; --n)
+		acc = acc + samples[n];
+
+	return acc/samples.length;
+};
+
+function POORMANSNTP2(Ev)
+{
+	var NSAMPLES = 63;
+
+	var rqend = Ev.timeStamp;
+	var rqroundtrip = rqend - this.rqstart;
+	var rqmidpoint = rqroundtrip/2;
+	var response = this.rq.responseText;
+	var servertimestamp = new Number(response);
+	var localtimestamp = Date.now();
+	var offset = servertimestamp - localtimestamp + rqmidpoint;
+
+	var offsetaverage = updateCalcAvg(offsetsamples, NSAMPLES, offset);
+	var RMS = updateCalcRms(jittersamples, NSAMPLES, offset-offsetaverage);
+
+	if (offsetaverage >= 0)
+		var note = 'LATE: ' + Math.round(offsetaverage) + ' # jitter: ' + Math.round(RMS*100)/100;
+	else
+		var note = 'EARLY: ' + Math.round(-offsetaverage) + ' # jitter: ' + Math.round(RMS*100)/100;
+	theServerdiffEl.innerHTML = note;
+};
+
+function POORMANSNTP()
+{
+	var rq = new XMLHttpRequest;
+	rq.open("GET", "/clock/server-time.php", true);
+	rq.addEventListener('load', { rq: rq, rqstart: performance.now(), handleEvent: POORMANSNTP2 });
+	rq.send();
+};
+
 	function displayTime() {
 		var theDatetime = new Date();
 		theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 100;
 		theTimeValueEl.innerHTML = timeAsText(theDatetime);
 		theShadowTimeValueEl.innerHTML = theTimeValueEl.innerHTML;
+		POORMANSNTP();
 	};
 	function heartbeat() {
 		var theDatetime = new Date();
