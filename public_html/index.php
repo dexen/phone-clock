@@ -269,6 +269,8 @@ function POORMANSNTP()
 /// FIXME: use levelchange event instead
 			theBatteryDisplayEl.style.visibility = 'visible';
 			navigator.getBattery().then((battery) => {
+				if (battery.chargingTime == 0)
+					theBatteryDisplayEl.style.visibility = 'hidden';
 				theBatteryLevelEl.innerHTML = Math.round(battery.level * 100) + '%';
 				theBatteryProgressEl.value = (battery.level * 100);
 				theBatteryBatteryFillEl.style.width = (battery.level * 2.77) + 'ex';
