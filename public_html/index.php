@@ -171,6 +171,7 @@ console.log('could not obtain wake lock');
 
 	var offsetsamples = [];
 	var jittersamples = [];
+	var THE_CORRECTION = 0;
 
 function updateCalcRms(samples, nsamples, newValue)
 {
@@ -211,6 +212,7 @@ function POORMANSNTP2(Ev)
 	var offset = servertimestamp - localtimestamp + rqmidpoint;
 
 	var offsetaverage = updateCalcAvg(offsetsamples, NSAMPLES, offset);
+THE_CORRECTION = offsetaverage;
 	var RMS = updateCalcRms(jittersamples, NSAMPLES, offset-offsetaverage);
 
 	if (offsetaverage >= 0)
@@ -230,6 +232,7 @@ function POORMANSNTP()
 
 	function displayTime() {
 		var theDatetime = new Date();
+		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
 		theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 100;
 		theTimeValueEl.innerHTML = timeAsText(theDatetime);
 		theShadowTimeValueEl.innerHTML = theTimeValueEl.innerHTML;
@@ -237,6 +240,7 @@ function POORMANSNTP()
 	};
 	function heartbeat() {
 		var theDatetime = new Date();
+		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
 		var xjitter = theDatetime.getMilliseconds() % 100;
 		if (xjitter > 60) {
 			window.clearInterval(heartbeatTimer);
