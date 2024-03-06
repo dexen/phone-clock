@@ -131,6 +131,13 @@ body {
 "use strict";
 (function(thePhoneClockEl) {
 	"use strict";
+
+	try {
+		navigator.wakeLock.request("screen"); }
+	catch (err) {
+console.log('could not obtain wake lock');
+	}
+
 	function timeAsText(theDatetime) {
 		var ret = '';
 		var h = theDatetime.getHours();
