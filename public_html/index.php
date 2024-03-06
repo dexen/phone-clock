@@ -22,7 +22,7 @@ header('Pragma: no-cache');
 
 #the-phone-clock {
 	font-size: 800%;
-font-size: 22vw;
+font-size: 25vw;
 }
 #the-phone-clock .tpc-time-display {
 	XXwidth: 9.33ex;
