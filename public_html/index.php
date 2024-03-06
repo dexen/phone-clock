@@ -112,7 +112,7 @@ body {
 		<span class="tpc-time-value-shadow">-1:-2:-3</span>
 	</fieldset>
 	<fieldset class="tpc-time-display">
-		<a href="" class="tpc-time-value">-1:-2:-3</a>
+		<a href="qr.php" class="tpc-time-value">-1:-2:-3</a>
 	</fieldset>
 	<fieldset class="tpc-debug-display">
 		<a href="#" onclick="toggleDisplayConnection(); return false;">
