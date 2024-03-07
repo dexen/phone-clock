@@ -47,6 +47,20 @@ header('Pragma: no-cache');
 	filter: blur(12px) drop-shadow(6px 6px 12px #f00);
 }
 
+#the-phone-clock .tpc-date-display {
+	font-size: 22%;
+	padding: .33ex .66ex;
+	padding: 10px;
+	border-width: 0;
+	white-space: nowrap;
+	font-style: italic;
+	color: #f00;
+}
+#the-phone-clock .tpc-date-display a {
+	color: inherit;
+	text-decoration: none;
+}
+
 #the-phone-clock .tpc-debug-display {
 	font-size: 22%;
 	padding: .33ex .66ex;
@@ -99,6 +113,10 @@ body {
 	<fieldset class="tpc-time-display">
 		<a href="qr.php" class="tpc-time-value">-1:-2:-3</a>
 	</fieldset>
+	<fieldset class="tpc-date-display">
+		<div class="tpc-date-value" style="text-align: left; float: left; margin-left: .33ex;">--</div>
+		<div class="tpc-day-name-value" style="text-align: right; float: right; margin-right: .33ex;">--</div>
+	</fieldset>
 	<fieldset class="tpc-debug-display">
 		<a href="#" onclick="toggleDisplayConnection(); return false;">
 		<span class="tpc-display-jitter-value" style="display: none;">-222</span>
@@ -148,6 +166,18 @@ console.log('could not obtain wake lock');
 		return h + ':' + m + ':' + s;
 	};
 
+	function dateAsText(theDatetime) {
+		var d = theDatetime;
+		var y = d.getFullYear();
+		var m = d.getMonth()+1;
+		if (m<10)
+			m = '0' + m;
+		var d = d.getDate();
+		if (d<10)
+			d = '0' + d;
+		return y + '-' + m + '-' + d;
+	};
+
 	var theTimeValueEl = thePhoneClockEl.getElementsByClassName('tpc-time-value')[0];
 	var theShadowTimeValueEl = thePhoneClockEl.getElementsByClassName('tpc-time-value-shadow')[0];
 	var theDebugEl = thePhoneClockEl.getElementsByClassName('tpc-debug-display')[0];
@@ -158,6 +188,9 @@ console.log('could not obtain wake lock');
 	var theBatteryLevelEl = thePhoneClockEl.getElementsByClassName('tpc-battery-value')[0];
 	var theBatteryBatteryBoxEl = thePhoneClockEl.getElementsByClassName('tpc-battery-battery-box')[0];
 	var theBatteryBatteryFillEl = thePhoneClockEl.getElementsByClassName('tpc-battery-battery-fill')[0];
+	var theDateEl = thePhoneClockEl.getElementsByClassName('tpc-date-display')[0];
+	var theDateDayNameEl = theDateEl.getElementsByClassName('tpc-day-name-value')[0];
+	var theDateValueEl = theDateEl.getElementsByClassName('tpc-date-value')[0];
 
 	var heartbeatTimer = null;
 
@@ -234,6 +267,11 @@ function POORMANSNTP()
 		theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 100;
 		theTimeValueEl.innerHTML = timeAsText(theDatetime);
 		theShadowTimeValueEl.innerHTML = theTimeValueEl.innerHTML;
+
+		var Fmt = new Intl.DateTimeFormat(undefined, {weekday: 'long'});
+		theDateDayNameEl.innerHTML = Fmt.format(theDatetime);
+		theDateValueEl.innerHTML = dateAsText(theDatetime);
+
 		window.setTimeout(POORMANSNTP, 11);
 	};
 	function heartbeat() {
