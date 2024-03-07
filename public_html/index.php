@@ -19,7 +19,7 @@ header('Pragma: no-cache');
 	--main-color: #f00;
 	--theme-red-main-color: #f00;
 	--theme-vfd-main-color: #06cf93;
-	--main-color: var(--theme-vfd-main-color);
+	--main-color: var(--theme-red-main-color);
 }
 
 #the-phone-clock {
@@ -161,11 +161,20 @@ var cfg_tristate_secondary_display =
 cfg_tristate_secondary_display = Number(cfg_tristate_secondary_display);
 document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
 
+var cfg_theme = 0;
+
 function tristateSecondaryDisplay() {
 	cfg_tristate_secondary_display = ((cfg_tristate_secondary_display+1+1)%3)-1;
 	document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
 	window.reconfigureSecondaryDisplay();
 	window.updateDisplay();
+
+	var xtheme = ['--theme-red-main-color', '--theme-vfd-main-color'];
+	cfg_theme = (cfg_theme+1)%xtheme.length;
+	var r = document.querySelector(':root');
+	var vv = window.getComputedStyle(r).getPropertyValue(xtheme[cfg_theme]);
+	r.style.setProperty('--main-color', vv);
+
 };
 
 (function(thePhoneClockEl) {
