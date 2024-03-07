@@ -161,22 +161,25 @@ var cfg_tristate_secondary_display =
 cfg_tristate_secondary_display = Number(cfg_tristate_secondary_display);
 document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
 
-var cfg_theme = 0;
+var cfg_theme = localStorage.getItem('cfg_theme') || 0;
+cfg_theme = Number(cfg_theme) || 0;
 
-function toggleTheme() {
+function toggleTheme(increment) {
 	var xtheme = ['--theme-red-main-color', '--theme-vfd-main-color'];
-	cfg_theme = (cfg_theme+1)%xtheme.length;
+	cfg_theme = (cfg_theme+increment)%xtheme.length;
+	localStorage.setItem('cfg_theme', cfg_theme);
 	var r = document.querySelector(':root');
 	var vv = window.getComputedStyle(r).getPropertyValue(xtheme[cfg_theme]);
 	r.style.setProperty('--main-color', vv);
 };
+toggleTheme(+0);
+function advanceTheme() { toggleTheme(+1); }
 
 function tristateSecondaryDisplay() {
 	cfg_tristate_secondary_display = ((cfg_tristate_secondary_display+1+1)%3)-1;
-	document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
+	document.cookie = document.cookie + 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
 	window.reconfigureSecondaryDisplay();
 	window.updateDisplay();
-	toggleTheme();
 };
 
 (function(thePhoneClockEl) {
@@ -356,6 +359,35 @@ function POORMANSNTP()
 
 	reconfigureSecondaryDisplay();
 	displayTime();
+
+	var touchstartX; var touchstartY; var touchendX; var touchendY;
+	const threshold = 9; // px
+	function handleLeftRightGesture(Event) {
+		var diffX = Math.abs(touchstartX - touchendX);
+		var diffY = Math.abs(touchstartY - touchendY);
+		if (diffY > (diffX*2))
+			return; /* don't care about vertical scrolls */
+		if ((touchendX+threshold) < touchstartX)
+//			alert('swiped left!');
+			advanceTheme();
+			;
+		if ((touchendX-threshold) > touchstartX)
+//			alert('swiped right!');
+			advanceTheme();
+			;
+	};
+
+	document.documentElement.addEventListener('touchstart', e => {
+		touchstartX = e.changedTouches[0].screenX;
+		touchstartY = e.changedTouches[0].screenY;
+	}, {passive: true});
+
+	document.documentElement.addEventListener('touchend', e => {
+		touchendX = e.changedTouches[0].screenX;
+		touchendY = e.changedTouches[0].screenY;
+		handleLeftRightGesture(e);
+	});
+
 
 	heartbeatTimer = window.setInterval(heartbeat, 1);
 })(document.getElementById('the-phone-clock'));
