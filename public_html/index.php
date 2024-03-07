@@ -188,6 +188,11 @@ function tristateSecondaryDisplay() {
 console.log('could not obtain wake lock');
 	}
 
+	document.addEventListener("visibilitychange", async () => {
+		if (wakeLock !== null && document.visibilityState === "visible")
+			await navigator.wakeLock.request("screen");
+	});
+
 	function timeAsText(theDatetime) {
 		var ret = '';
 		var h = theDatetime.getHours();
