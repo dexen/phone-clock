@@ -361,7 +361,7 @@ function POORMANSNTP()
 	displayTime();
 
 	var touchstartX; var touchstartY; var touchendX; var touchendY;
-	const threshold = 9; // px
+	const threshold = 72; // px
 	function handleLeftRightGesture(Event) {
 		var diffX = Math.abs(touchstartX - touchendX);
 		var diffY = Math.abs(touchstartY - touchendY);
