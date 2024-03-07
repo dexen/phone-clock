@@ -15,6 +15,13 @@ header('Pragma: no-cache');
 <style>
 * { box-sizing: border-box; }
 
+:root {
+	--main-color: #f00;
+	--theme-red-main-color: #f00;
+	--theme-vfd-main-color: #06cf93;
+	--main-color: var(--theme-vfd-main-color);
+}
+
 #the-phone-clock {
 	font-family: monospace, sans-serif;
 	line-height: 53%;
@@ -28,6 +35,7 @@ header('Pragma: no-cache');
 	font-style: italic;
 	font-variant-numeric: tabular-nums lining-nums;
 	color: #f00 !important;
+	color: var(--main-color) !important;
 	text-decoration: none !important;
 }
 #the-phone-clock .tpc-time-display a {
@@ -41,10 +49,12 @@ header('Pragma: no-cache');
 	white-space: nowrap;
 	font-style: italic;
 	font-variant-numeric: tabular-nums lining-nums;
-	color: #f00;
+	color: #f00 !important;
+	color: var(--main-color) !important;
 	position: absolute;
 	z-index: -33;
 	filter: blur(12px) drop-shadow(6px 6px 12px #f00);
+	filter: blur(12px) drop-shadow(6px 6px 12px var(--main-color));
 }
 
 #the-phone-clock .tpc-date-display {
@@ -54,7 +64,8 @@ header('Pragma: no-cache');
 	border-width: 0;
 	white-space: nowrap;
 	font-style: italic;
-	color: #f00;
+	color: #f00 !important;
+	color: var(--main-color) !important;
 }
 #the-phone-clock .tpc-date-display a {
 	color: inherit;
@@ -68,7 +79,8 @@ header('Pragma: no-cache');
 	border-width: 0;
 	white-space: nowrap;
 	font-style: italic;
-	color: #f00;
+	color: #f00 !important;
+	color: var(--main-color) !important;
 }
 #the-phone-clock .tpc-debug-display a {
 	color: inherit;
@@ -81,8 +93,16 @@ header('Pragma: no-cache');
 	border-width: 0;
 	white-space: nowrap;
 	font-style: italic;
-	color: #f00;
+	color: #f00 !important;
+	color: var(--main-color) !important;
+	border-color: #0f0 !important;
 	text-align: right;
+}
+
+#the-phone-clock .tpc-battery-battery-fill {
+	background-color: #f00 !important;
+	background-color: var(--main-color) !important;
+	color: black;
 }
 
 html, body {
@@ -102,8 +122,8 @@ body {
 <center id="the-phone-clock">
 	<fieldset class="tpc-battery-display" style="visibility: hidden">
 		<span class="tpc-battery-value">-?%</span>
-		<div class="tpc-battery-battery-box" style="width: 3ex; Xheight: 1.5ex; border: .21ex solid #f00; display: inline-block; margin-left: .0ex; border-left-style: dashed; box-sizing: initial; vertical-align: middle; margin-bottom: .2ex; border-radius: .18ex">
-			<div class="tpc-battery-battery-fill" style="position: relative; width: 0ex; height: 1ex; background: #f00; margin: .1ex; margin-left: auto;  color: black;"></div>
+		<div class="tpc-battery-battery-box" style="width: 3ex; Xheight: 1.5ex; border-width: .21ex; border-style: solid; display: inline-block; margin-left: .0ex; border-left-style: dashed; box-sizing: initial; vertical-align: middle; margin-bottom: .2ex; border-radius: .18ex">
+			<div class="tpc-battery-battery-fill" style="position: relative; width: 0ex; height: 1ex; margin: .1ex; margin-left: auto;"></div>
 		</div>
 		
 	</fieldset>
