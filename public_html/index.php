@@ -153,14 +153,6 @@ body {
 <script>
 "use strict";
 
-var cfg_tristate_secondary_display =
-	(document.cookie
-		.split("; ")
-		.find((row) => row.startsWith("cfg_tristate_secondary_display="))
-		?.split("=")[1]) || 1;
-cfg_tristate_secondary_display = Number(cfg_tristate_secondary_display);
-document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
-
 var cfg_theme = localStorage.getItem('cfg_theme') || 0;
 cfg_theme = Number(cfg_theme) || 0;
 
@@ -175,9 +167,14 @@ function toggleTheme(increment) {
 toggleTheme(+0);
 function advanceTheme() { toggleTheme(+1); }
 
+var cfg_tristate_secondary_display = localStorage.getItem('cfg_tristate_secondary_display');
+if (cfg_tristate_secondary_display === null)
+	cfg_tristate_secondary_display = 1;
+cfg_tristate_secondary_display = Number(cfg_tristate_secondary_display);
+
 function tristateSecondaryDisplay() {
 	cfg_tristate_secondary_display = ((cfg_tristate_secondary_display+1+1)%3)-1;
-	document.cookie = document.cookie + 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
+	localStorage.setItem('cfg_tristate_secondary_display', cfg_tristate_secondary_display);
 	window.reconfigureSecondaryDisplay();
 	window.updateDisplay();
 };
