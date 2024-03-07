@@ -113,12 +113,14 @@ body {
 	<fieldset class="tpc-time-display">
 		<a href="qr.php" class="tpc-time-value">-1:-2:-3</a>
 	</fieldset>
-	<fieldset class="tpc-date-display">
-		<div class="tpc-date-value" style="text-align: left; float: left; margin-left: .33ex;">--</div>
-		<div class="tpc-day-name-value" style="text-align: right; float: right; margin-right: .33ex;">--</div>
+	<fieldset class="tpc-date-display" style="display: none">
+		<a href="#" onclick="tristateSecondaryDisplay(); return false;" style="display: flex; width: 100%">
+			<div class="tpc-date-value" style="text-align: left; flex: 1; margin-left: .33ex;">--</div>
+			<div class="tpc-day-name-value" style="text-align: right; flex: 2; margin-right: .33ex;">--</div>
+		</a>
 	</fieldset>
-	<fieldset class="tpc-debug-display">
-		<a href="#" onclick="toggleDisplayConnection(); return false;">
+	<fieldset class="tpc-debug-display" style="display: block;">
+		<a href="#" onclick="tristateSecondaryDisplay(); return false;">
 		<span class="tpc-display-jitter-value" style="display: none;">-222</span>
 		<span style="display: none;">;;</span>
 		<span class="tpc-heartbeat-jitter-value" style="display: none;">-333</span>
@@ -130,19 +132,22 @@ body {
 
 <script>
 "use strict";
-var apply_correction =
+
+var cfg_tristate_secondary_display =
 	(document.cookie
 		.split("; ")
-		.find((row) => row.startsWith("apply_correction="))
+		.find((row) => row.startsWith("cfg_tristate_secondary_display="))
 		?.split("=")[1]) || 1;
-apply_correction = Number(apply_correction);
-document.cookie = 'apply_correction=' + apply_correction;
-console.log(document.cookie);
-function toggleDisplayConnection() {
-	apply_correction = (apply_correction+1)%2;
-	document.cookie = 'apply_correction=' + apply_correction;
+cfg_tristate_secondary_display = Number(cfg_tristate_secondary_display);
+document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
+
+function tristateSecondaryDisplay() {
+	cfg_tristate_secondary_display = ((cfg_tristate_secondary_display+1+1)%3)-1;
+	document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
+	window.reconfigureSecondaryDisplay();
 	window.updateDisplay();
 };
+
 (function(thePhoneClockEl) {
 	"use strict";
 
@@ -243,7 +248,7 @@ function POORMANSNTP2(Ev)
 	var RMS = updateCalcRms(jittersamples, NSAMPLES, offset-offsetaverage);
 
 	THE_CORRECTION = 0;
-	if (apply_correction) {
+	if (cfg_tristate_secondary_display) {
 		THE_CORRECTION = offsetaverage;
 		var note = 'correction: ' + Math.round(offsetaverage) + ' # jitter: ' + Math.round(RMS*100)/100; }
 	else if (offsetaverage >= 0)
@@ -306,10 +311,21 @@ function POORMANSNTP()
 				1001-theDatetime.getMilliseconds() );
 	};
 
-	displayTime();
+	window.reconfigureSecondaryDisplay = function() {
+		if (cfg_tristate_secondary_display>=0) {
+			theDateEl.style.display = 'none';
+			theDebugEl.style.display = 'revert'; }
+		else {
+			theDateEl.style.display = 'revert';
+			theDebugEl.style.display = 'none'; }
+	};
 	window.updateDisplay = function() {
 		displayTime();
 	};
+
+	reconfigureSecondaryDisplay();
+	displayTime();
+
 	heartbeatTimer = window.setInterval(heartbeat, 1);
 })(document.getElementById('the-phone-clock'));
 </script>
