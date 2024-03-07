@@ -163,18 +163,20 @@ document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_dis
 
 var cfg_theme = 0;
 
-function tristateSecondaryDisplay() {
-	cfg_tristate_secondary_display = ((cfg_tristate_secondary_display+1+1)%3)-1;
-	document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
-	window.reconfigureSecondaryDisplay();
-	window.updateDisplay();
-
+function toggleTheme() {
 	var xtheme = ['--theme-red-main-color', '--theme-vfd-main-color'];
 	cfg_theme = (cfg_theme+1)%xtheme.length;
 	var r = document.querySelector(':root');
 	var vv = window.getComputedStyle(r).getPropertyValue(xtheme[cfg_theme]);
 	r.style.setProperty('--main-color', vv);
+};
 
+function tristateSecondaryDisplay() {
+	cfg_tristate_secondary_display = ((cfg_tristate_secondary_display+1+1)%3)-1;
+	document.cookie = 'cfg_tristate_secondary_display=' + cfg_tristate_secondary_display;
+	window.reconfigureSecondaryDisplay();
+	window.updateDisplay();
+	toggleTheme();
 };
 
 (function(thePhoneClockEl) {
