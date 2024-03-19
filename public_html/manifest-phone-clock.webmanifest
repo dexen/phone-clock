@@ -6,10 +6,10 @@
 	"description": "Display an elegant and accurate digital clock",
 	"scope": "/",
 	"theme_color": "#000",
-	"start_url": "/clock/",
+	"start_url": ".",
 	"icons": [
 		{
-			"src": "/clock/icons/icon-192x192.png?q",
+			"src": "./icons/icon-192x192.png?q",
 			"sizes": "192x192",
 			"type": "image/png"
 		}
