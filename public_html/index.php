@@ -129,9 +129,6 @@ body {
 		</div>
 		
 	</fieldset>
-	<fieldset class="tpc-time-display-shadow">
-		<span class="tpc-time-value-shadow">-1:-2:-3</span>
-	</fieldset>
 	<fieldset class="tpc-time-display">
 		<a href="qr.php" class="tpc-time-value">-1:-2:-3</a>
 	</fieldset>
@@ -222,7 +219,6 @@ console.log('could not obtain wake lock');
 	};
 
 	var theTimeValueEl = thePhoneClockEl.getElementsByClassName('tpc-time-value')[0];
-	var theShadowTimeValueEl = thePhoneClockEl.getElementsByClassName('tpc-time-value-shadow')[0];
 	var theDebugEl = thePhoneClockEl.getElementsByClassName('tpc-debug-display')[0];
 	var theDisplayJitterValueEl = theDebugEl.getElementsByClassName('tpc-display-jitter-value')[0];
 	var theHeartbeatJitterValueEl = theDebugEl.getElementsByClassName('tpc-heartbeat-jitter-value')[0];
@@ -238,7 +234,6 @@ console.log('could not obtain wake lock');
 	var heartbeatTimer = null;
 
 	theTimeValueEl.innerHTML = -1; // '-2:-3:-4';
-	theShadowTimeValueEl.innerHTML = theTimeValueEl.innerHTML;
 
 	var offsetsamples = [];
 	var jittersamples = [];
@@ -309,7 +304,6 @@ function POORMANSNTP()
 		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
 		theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 100;
 		theTimeValueEl.innerHTML = timeAsText(theDatetime);
-		theShadowTimeValueEl.innerHTML = theTimeValueEl.innerHTML;
 
 		var Fmt = new Intl.DateTimeFormat(undefined, {weekday: 'long'});
 		theDateDayNameEl.innerHTML = Fmt.format(theDatetime);
