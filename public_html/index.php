@@ -4,6 +4,7 @@ function U(string $str) { return rawurlencode($str); }
 header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
 header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 header('Pragma: no-cache');
+function config_hint_dev_p() : bool { return strpos($_SERVER['SCRIPT_URI'], 'dev', 7) !== false; }
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,9 +17,10 @@ header('Pragma: no-cache');
 * { box-sizing: border-box; }
 
 :root {
-	--main-color: #f00;
 	--theme-red-main-color: #f00;
 	--theme-vfd-main-color: #06cf93;
+	--theme-dev-main-color: #00f;
+	--theme-main-color: <?= config_hint_dev_p() ? 'var(--theme-dev-main-color)' : 'var(--theme-red-main-color)' ?>;
 	--main-color: var(--theme-red-main-color);
 }
 
@@ -157,7 +159,7 @@ var cfg_theme = localStorage.getItem('cfg_theme') || 0;
 cfg_theme = Number(cfg_theme) || 0;
 
 function toggleTheme(increment) {
-	var xtheme = ['--theme-red-main-color', '--theme-vfd-main-color'];
+	var xtheme = ['--theme-main-color', '--theme-vfd-main-color'];
 	cfg_theme = (cfg_theme+increment)%xtheme.length;
 	localStorage.setItem('cfg_theme', cfg_theme);
 	var r = document.querySelector(':root');
