@@ -3,7 +3,7 @@
 	"display": "fullscreen",
 	"name": "Precise Clock",
 	"short_name": "Precise Clock",
-	"description": "Display an elegant and accurate digital clock",
+	"description": "Digital Clock. Sub-1 frame precision on 120 Hz displays achieved thanks to simplified variant of NTP algorithm. An installable web app.",
 	"scope": "/",
 	"theme_color": "#000",
 	"start_url": ".",
