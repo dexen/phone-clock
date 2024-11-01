@@ -394,6 +394,10 @@ function POORMANSNTP2(Ev)
 	var response = this.rq.responseText;
 	var servertimestamp = new Number(response);
 	var localtimestamp = Date.now();
+	/// IMPROVEME: using rqmidpoint assumes symmetric transit time & reply generation time
+	/// this doesn't seem to work well when using phone tethering for network access
+	/// possibly due to asymmetric transit times?
+	/// we could be smarter and compare timestamps sent on server and on terminal
 	const offset = servertimestamp - localtimestamp + rqmidpoint;
 
 	POORMANSNTP.OffsetSampling.addRequestResults(rqroundtrip, offset);
