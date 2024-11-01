@@ -286,7 +286,14 @@ var POORMANSNTP = {
 		addSample: function(offset) {
 			while (this._history.length >= this.NSAMPLES)
 				this._history.shift();
-			this._history.push({offset: offset});
+			this._history.push({offset: offset, jitter: undefined});
+		},
+		fixupJitter: function(jitter) {
+			if (this._history.length <= 0)
+				throw new Error('trying to fix up jitter on empty history');
+			if (this._history[this._history.length-1].jitter !== undefined)
+				throw new Error('trying to fix up jitter on already fixed up jitter');
+			this._history[this._history.length-1].jitter = jitter;
 		},
 		offsetSamples: function() {
 			var ret = [];
@@ -312,12 +319,14 @@ function POORMANSNTP2(Ev)
 	var response = this.rq.responseText;
 	var servertimestamp = new Number(response);
 	var localtimestamp = Date.now();
-	var offset = servertimestamp - localtimestamp + rqmidpoint;
+	const offset = servertimestamp - localtimestamp + rqmidpoint;
 
 	//var offsetaverage = updateCalcAvg(offsetsamples, NSAMPLES, offset);
 	POORMANSNTP.OffsetSampling.addSample(offset);
 	var offsetaverage = calcAvg(POORMANSNTP.OffsetSampling.offsetSamples());
-	var RMS = updateCalcRms(jittersamples, NSAMPLES, offset-offsetaverage);
+	const jitter = offset-offsetaverage;
+	var RMS = updateCalcRms(jittersamples, NSAMPLES, jitter);
+	POORMANSNTP.OffsetSampling.fixupJitter(jitter);
 
 	THE_CORRECTION = 0;
 	if (cfg_tristate_secondary_display) {
