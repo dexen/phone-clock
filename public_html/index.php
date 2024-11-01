@@ -286,7 +286,7 @@ var POORMANSNTP = {
 		_history: [],
 		_stats: {discarded_request_timeout: 0, },
 		NSAMPLES: 63,
-		NDISCARDPERCENT: 12,
+		NDISCARDPERCENT: 42,
 		MAX_ROUNDTRIP_MS: 999,
 		recencyIndicator: '#',
 		//_recencyIndicatorSeries: ['d', 'b', 'q', 'p' ],
