@@ -294,7 +294,7 @@ function POORMANSNTP2(Ev)
 function POORMANSNTP()
 {
 	var rq = new XMLHttpRequest;
-	rq.open("GET", "/clock/server-time.php", true);
+	rq.open("GET", "./server-time.php", true);
 	rq.addEventListener('load', { rq: rq, rqstart: performance.now(), handleEvent: POORMANSNTP2 });
 	rq.send();
 };
