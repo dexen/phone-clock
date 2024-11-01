@@ -18,6 +18,7 @@ function config_hint_dev_p() : bool { return strpos($_SERVER['SCRIPT_URI'], 'dev
 
 :root {
 	--theme-red-main-color: #f00;
+	--theme-red-subdued-color: #300;
 	--theme-vfd-main-color: #06cf93;
 	--theme-dev-main-color: #00f;
 	--theme-main-color: <?= config_hint_dev_p() ? 'var(--theme-dev-main-color)' : 'var(--theme-red-main-color)' ?>;
@@ -39,6 +40,7 @@ function config_hint_dev_p() : bool { return strpos($_SERVER['SCRIPT_URI'], 'dev
 	color: #f00 !important;
 	color: var(--main-color) !important;
 	text-decoration: none !important;
+	text-shadow: 9px 9px 1.33px var(--theme-red-subdued-color);
 }
 #the-phone-clock .tpc-time-display a {
 	color: inherit;
