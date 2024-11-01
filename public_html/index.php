@@ -40,7 +40,7 @@ function config_hint_dev_p() : bool { return strpos($_SERVER['SCRIPT_URI'], 'dev
 	color: #f00 !important;
 	color: var(--main-color) !important;
 	text-decoration: none !important;
-	text-shadow: 9px 9px 1.33px var(--theme-red-subdued-color);
+	text-shadow: 1vw 1vw 1.33px var(--theme-red-subdued-color);
 }
 #the-phone-clock .tpc-time-display a {
 	color: inherit;
