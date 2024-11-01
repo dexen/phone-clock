@@ -302,6 +302,30 @@ var POORMANSNTP = {
 			return ret;
 		},
 		offsetSamplesBest: function() {
+			var ret = [];
+			if (this._history.length === 0)
+				return ret;
+			if (this._history.length === 1) {
+				ret.push(this._history[0].offset);
+				return ret; }
+			if (this._history.length === 2) {
+				ret.push(this._history[0].offset);
+				ret.push(this._history[1].offset);
+				return ret; }
+			const NDISCARD_COUNT = Math.ceil(this._history.length*this.NDISCARDPERCENT/100);
+			const TARGET_COUNT = this._history.length - NDISCARD_COUNT;
+
+			for (var n = 0; n < this._history.length; ++n)
+				ret.push(this._history[n].offset);
+			ret.sort();
+
+			while (ret.length > TARGET_COUNT)
+				if (Math.abs(ret[0]) > Math.abs(ret[ret.length-1]))
+					ret.shift();
+				else
+					ret.pop();
+
+			return ret;
 		},
 		jitterSamples: function() {
 		},
@@ -325,17 +349,21 @@ function POORMANSNTP2(Ev)
 	POORMANSNTP.OffsetSampling.addSample(offset);
 	var offsetaverage = calcAvg(POORMANSNTP.OffsetSampling.offsetSamples());
 	const jitter = offset-offsetaverage;
+/// FIXME - use jitter calculated from *best* samples, rather than from all
 	var RMS = updateCalcRms(jittersamples, NSAMPLES, jitter);
 	POORMANSNTP.OffsetSampling.fixupJitter(jitter);
 
+	//var oaALL = calcAvg(POORMANSNTP.OffsetSampling.offsetSamples());
+	var oaBEST = calcAvg(POORMANSNTP.OffsetSampling.offsetSamplesBest());
+
 	THE_CORRECTION = 0;
 	if (cfg_tristate_secondary_display) {
-		THE_CORRECTION = offsetaverage;
-		var note = 'correction: ' + Math.round(offsetaverage) + ' # jitter: ' + Math.round(RMS*100)/100; }
+		THE_CORRECTION = oaBEST;
+		var note = 'correction: ' + Math.round(oaBEST) + ' # jitter: ' + Math.round(RMS*100)/100; }
 	else if (offsetaverage >= 0)
-		var note = 'LATE: ' + Math.round(offsetaverage) + ' # jitter: ' + Math.round(RMS*100)/100;
+		var note = 'LATE: ' + Math.round(oaBEST) + ' # jitter: ' + Math.round(RMS*100)/100;
 	else
-		var note = 'EARLY: ' + Math.round(-offsetaverage) + ' # jitter: ' + Math.round(RMS*100)/100;
+		var note = 'EARLY: ' + Math.round(-oaBEST) + ' # jitter: ' + Math.round(RMS*100)/100;
 	theServerdiffEl.innerHTML = note;
 };
 
