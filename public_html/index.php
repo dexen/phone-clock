@@ -364,20 +364,20 @@ function POORMANSNTP2(Ev)
 
 	//var offsetaverage = updateCalcAvg(offsetsamples, NSAMPLES, offset);
 	POORMANSNTP.OffsetSampling.addSample(offset);
+	//var oaALL = calcAvg(POORMANSNTP.OffsetSampling.offsetSamples());
+	var oaBEST = calcAvg(POORMANSNTP.OffsetSampling.offsetSamplesBest());
+
 	var offsetaverage = calcAvg(POORMANSNTP.OffsetSampling.offsetSamples());
 	const jitter = offset-offsetaverage;
 /// FIXME - use jitter calculated from *best* samples, rather than from all
 	var RMS = updateCalcRms(jittersamples, NSAMPLES, jitter);
 	POORMANSNTP.OffsetSampling.fixupJitter(jitter);
 
-	//var oaALL = calcAvg(POORMANSNTP.OffsetSampling.offsetSamples());
-	var oaBEST = calcAvg(POORMANSNTP.OffsetSampling.offsetSamplesBest());
-
 	THE_CORRECTION = 0;
 	if (cfg_tristate_secondary_display) {
 		THE_CORRECTION = oaBEST;
 		var note = 'correction: ' + numConstWidth5(oaBEST) + ' # jitter: ' + numConstWidth3d2(RMS); }
-	else if (offsetaverage >= 0)
+	else if (oaBEST >= 0)
 		var note = 'LATE: ' + numConstWidth5(oaBEST) + ' # jitter: ' + numConstWidth3d2(RMS);
 	else
 		var note = 'EARLY: ' + numConstWidth5(-oaBEST) + ' # jitter: ' + numConstWidth3d2(RMS);
