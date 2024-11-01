@@ -348,9 +348,9 @@ function POORMANSNTP()
 	window.reconfigureSecondaryDisplay = function() {
 		if (cfg_tristate_secondary_display>=0) {
 			theDateEl.style.display = 'none';
-			theDebugEl.style.display = 'revert'; }
+			theDebugEl.style.display = 'unset'; }
 		else {
-			theDateEl.style.display = 'revert';
+			theDateEl.style.display = 'unset';
 			theDebugEl.style.display = 'none'; }
 	};
 	window.updateDisplay = function() {
