@@ -254,6 +254,8 @@ function updateCalcRms(samples, nsamples, newValue)
 	return Math.sqrt((1/samples.length) * acc);
 };
 
+
+/// DELETEME
 function updateCalcAvg(samples, nsamples, newValue)
 {
 	while (samples.length >= nsamples)
@@ -267,10 +269,43 @@ function updateCalcAvg(samples, nsamples, newValue)
 	return acc/samples.length;
 };
 
+function calcAvg(samples)
+{
+	var acc = 0;
+	for (var n = samples.length-1; n>=0; --n)
+		acc = acc + samples[n];
+
+	return acc/samples.length;
+}
+
+var POORMANSNTP = {
+	OffsetSampling : {
+		_history: [],
+		NSAMPLES: 255,
+		NDISCARDPERCENT: 12,
+		addSample: function(offset) {
+			while (this._history.length >= this.NSAMPLES)
+				this._history.shift();
+			this._history.push({offset: offset});
+		},
+		offsetSamples: function() {
+			var ret = [];
+			for (var n = 0; n < this._history.length; ++n)
+				ret.push(this._history[n].offset);
+			return ret;
+		},
+		offsetSamplesBest: function() {
+		},
+		jitterSamples: function() {
+		},
+		jitterSamplesBest: function() {
+		},
+	},
+};
+
 function POORMANSNTP2(Ev)
 {
 	var NSAMPLES = 63;
-
 	var rqend = Ev.timeStamp;
 	var rqroundtrip = rqend - this.rqstart;
 	var rqmidpoint = rqroundtrip/2;
@@ -279,7 +314,9 @@ function POORMANSNTP2(Ev)
 	var localtimestamp = Date.now();
 	var offset = servertimestamp - localtimestamp + rqmidpoint;
 
-	var offsetaverage = updateCalcAvg(offsetsamples, NSAMPLES, offset);
+	//var offsetaverage = updateCalcAvg(offsetsamples, NSAMPLES, offset);
+	POORMANSNTP.OffsetSampling.addSample(offset);
+	var offsetaverage = calcAvg(POORMANSNTP.OffsetSampling.offsetSamples());
 	var RMS = updateCalcRms(jittersamples, NSAMPLES, offset-offsetaverage);
 
 	THE_CORRECTION = 0;
@@ -293,7 +330,7 @@ function POORMANSNTP2(Ev)
 	theServerdiffEl.innerHTML = note;
 };
 
-function POORMANSNTP()
+function POORMANSNTP_TO()
 {
 	var rq = new XMLHttpRequest;
 	rq.open("GET", "./server-time.php", true);
@@ -311,7 +348,7 @@ function POORMANSNTP()
 		theDateDayNameEl.innerHTML = Fmt.format(theDatetime);
 		theDateValueEl.innerHTML = dateAsText(theDatetime);
 
-		window.setTimeout(POORMANSNTP, 11);
+		window.setTimeout(POORMANSNTP_TO, 11);
 	};
 	function heartbeat() {
 		var theDatetime = new Date();
