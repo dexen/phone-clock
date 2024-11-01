@@ -284,13 +284,24 @@ function calcAvg(samples)
 var POORMANSNTP = {
 	OffsetSampling : {
 		_history: [],
+		_stats: {discarded_request_timeout: 0, },
 		NSAMPLES: 63,
 		NDISCARDPERCENT: 12,
-		addSample: function(offset) {
+		MAX_ROUNDTRIP_MS: 999,
+
+		addSample: function(roundtrip_ms, offset) {
 			while (this._history.length >= this.NSAMPLES)
 				this._history.shift();
-			this._history.push({offset: offset, jitter: undefined});
+			this._history.push({roundtrip_ms: roundtrip_ms, offset: offset, jitter: undefined});
 		},
+
+		addRequestResults: function(roundtrip_ms, offset) {
+			if (roundtrip_ms >= this.MAX_ROUNDTRIP_MS) {
+				++this._stats.discarded_request_timeout;
+				return; }
+			this.addSample(roundtrip_ms, offset);
+		},
+
 		fixupJitter: function(jitter) {
 			if (this._history.length <= 0)
 				throw new Error('trying to fix up jitter on empty history');
@@ -362,8 +373,8 @@ function POORMANSNTP2(Ev)
 	var localtimestamp = Date.now();
 	const offset = servertimestamp - localtimestamp + rqmidpoint;
 
-	//var offsetaverage = updateCalcAvg(offsetsamples, NSAMPLES, offset);
-	POORMANSNTP.OffsetSampling.addSample(offset);
+	POORMANSNTP.OffsetSampling.addRequestResults(rqroundtrip, offset);
+
 	//var oaALL = calcAvg(POORMANSNTP.OffsetSampling.offsetSamples());
 	var oaBEST = calcAvg(POORMANSNTP.OffsetSampling.offsetSamplesBest());
 
@@ -387,6 +398,7 @@ function POORMANSNTP2(Ev)
 function POORMANSNTP_TO()
 {
 	var rq = new XMLHttpRequest;
+	rq.timeout = POORMANSNTP.OffsetSampling.MAX_ROUNDTRIP_MS;
 	rq.open("GET", "./server-time.php", true);
 	rq.addEventListener('load', { rq: rq, rqstart: performance.now(), handleEvent: POORMANSNTP2 });
 	rq.send();
