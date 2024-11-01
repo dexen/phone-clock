@@ -26,7 +26,7 @@ function config_hint_dev_p() : bool { return strpos($_SERVER['SCRIPT_URI'], 'dev
 }
 
 #the-phone-clock {
-	font-family: monospace, sans-serif;
+	font-family: monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 	line-height: 53%;
 	font-size: 800%;
 	font-size: 20vw;
