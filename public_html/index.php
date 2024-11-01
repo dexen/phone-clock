@@ -284,7 +284,7 @@ function calcAvg(samples)
 var POORMANSNTP = {
 	OffsetSampling : {
 		_history: [],
-		NSAMPLES: 255,
+		NSAMPLES: 63,
 		NDISCARDPERCENT: 12,
 		addSample: function(offset) {
 			while (this._history.length >= this.NSAMPLES)
