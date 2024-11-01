@@ -288,6 +288,14 @@ var POORMANSNTP = {
 		NSAMPLES: 63,
 		NDISCARDPERCENT: 12,
 		MAX_ROUNDTRIP_MS: 999,
+		recencyIndicator: '#',
+		//_recencyIndicatorSeries: ['d', 'b', 'q', 'p' ],
+		//_recencyIndicatorSeries: ['|', '/', '-', '\\', ],
+		//_recencyIndicatorSeries: ['&lt;', '^', '&gt', 'v', ],
+		//_recencyIndicatorSeries: [ '🌍', '🌎', '🌏', ],
+		//_recencyIndicatorSeries: [ '˥', '˦', '˧', '˨', '˩', '˨', '˧', '˦', ],
+		// courtesy of https://symbl.cc/en/unicode/blocks/block-elements/
+		_recencyIndicatorSeries: [ '▙', '▚', '▞', '▛', '▞', '▚', '▜', '▚', '▞', '▟', '▞', '▚', ],
 
 		addSample: function(roundtrip_ms, offset) {
 			while (this._history.length >= this.NSAMPLES)
@@ -300,6 +308,8 @@ var POORMANSNTP = {
 				++this._stats.discarded_request_timeout;
 				return; }
 			this.addSample(roundtrip_ms, offset);
+			this.recencyIndicator = this._recencyIndicatorSeries.shift();
+			this._recencyIndicatorSeries.push(this.recencyIndicator);
 		},
 
 		fixupJitter: function(jitter) {
@@ -387,11 +397,11 @@ function POORMANSNTP2(Ev)
 	THE_CORRECTION = 0;
 	if (cfg_tristate_secondary_display) {
 		THE_CORRECTION = oaBEST;
-		var note = 'correction: ' + numConstWidth5(oaBEST) + ' # jitter: ' + numConstWidth3d2(RMS); }
+		var note = 'correction: ' + numConstWidth5(oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS); }
 	else if (oaBEST >= 0)
-		var note = 'LATE: ' + numConstWidth5(oaBEST) + ' # jitter: ' + numConstWidth3d2(RMS);
+		var note = 'LATE: ' + numConstWidth5(oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS);
 	else
-		var note = 'EARLY: ' + numConstWidth5(-oaBEST) + ' # jitter: ' + numConstWidth3d2(RMS);
+		var note = 'EARLY: ' + numConstWidth5(-oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS);
 	theServerdiffEl.innerHTML = note;
 };
 
