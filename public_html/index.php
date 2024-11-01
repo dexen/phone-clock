@@ -86,6 +86,9 @@ function config_hint_dev_p() : bool { return strpos($_SERVER['SCRIPT_URI'], 'dev
 	color: #f00 !important;
 	color: var(--main-color) !important;
 }
+#the-phone-clock .tpc-debug-display .tpc-serverdiff-value {
+	white-space: pre;
+}
 #the-phone-clock .tpc-debug-display a {
 	color: inherit;
 	text-decoration: none;
@@ -334,6 +337,22 @@ var POORMANSNTP = {
 	},
 };
 
+function numConstWidth3d2(num)
+{
+	var str = String(num.toFixed(2));
+	while (str.length < 6)
+		str = ' ' + str;
+	return str;
+}
+
+function numConstWidth5(num)
+{
+	var str = String(num.toFixed(0));
+	while (str.length < 5)
+		str = ' ' + str;
+	return str;
+}
+
 function POORMANSNTP2(Ev)
 {
 	var NSAMPLES = 63;
@@ -359,11 +378,11 @@ function POORMANSNTP2(Ev)
 	THE_CORRECTION = 0;
 	if (cfg_tristate_secondary_display) {
 		THE_CORRECTION = oaBEST;
-		var note = 'correction: ' + Math.round(oaBEST) + ' # jitter: ' + Math.round(RMS*100)/100; }
+		var note = 'correction: ' + numConstWidth5(oaBEST) + ' # jitter: ' + numConstWidth3d2(RMS); }
 	else if (offsetaverage >= 0)
-		var note = 'LATE: ' + Math.round(oaBEST) + ' # jitter: ' + Math.round(RMS*100)/100;
+		var note = 'LATE: ' + numConstWidth5(oaBEST) + ' # jitter: ' + numConstWidth3d2(RMS);
 	else
-		var note = 'EARLY: ' + Math.round(-oaBEST) + ' # jitter: ' + Math.round(RMS*100)/100;
+		var note = 'EARLY: ' + numConstWidth5(-oaBEST) + ' # jitter: ' + numConstWidth3d2(RMS);
 	theServerdiffEl.innerHTML = note;
 };
 
