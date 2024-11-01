@@ -348,6 +348,8 @@ function numConstWidth3d2(num)
 function numConstWidth5(num)
 {
 	var str = String(num.toFixed(0));
+	if (str === '-0')
+		str = '0';
 	while (str.length < 5)
 		str = ' ' + str;
 	return str;
