@@ -1,4 +1,4 @@
-# Phone Clock
+# Precise Clock
 Display an elegant and accurate digital clock.
 Automatically corrected with time fetched over the inernet.
 

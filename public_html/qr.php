@@ -8,7 +8,7 @@ header('Pragma: no-cache');
 <!DOCTYPE html>
 <html>
 <head>
-<title>Phone Clock - QR code</title>
+<title>Precise Clock - QR code</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0">
 <meta name="theme-color" content="#000">
 <link rel="manifest" href="manifest-phone-clock.webmanifest?<?= U(filemtime('manifest-phone-clock.webmanifest')) ?>">

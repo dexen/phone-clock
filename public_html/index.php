@@ -9,7 +9,7 @@ function config_hint_dev_p() : bool { return strpos($_SERVER['SCRIPT_URI'], 'dev
 <!DOCTYPE html>
 <html>
 <head>
-<title>Phone Clock</title>
+<title>Precise Clock</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0">
 <meta name="theme-color" content="#000">
 <link rel="manifest" href="manifest-phone-clock.webmanifest?<?= U(filemtime('manifest-phone-clock.webmanifest')) ?>">

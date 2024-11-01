@@ -1,8 +1,8 @@
 {
 	"background_color": "#000",
 	"display": "fullscreen",
-	"name": "Digital Clock",
-	"short_name": "Clock",
+	"name": "Precise Clock",
+	"short_name": "Precise Clock",
 	"description": "Display an elegant and accurate digital clock",
 	"scope": "/",
 	"theme_color": "#000",
