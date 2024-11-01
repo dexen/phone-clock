@@ -325,29 +325,29 @@ var POORMANSNTP = {
 				ret.push(this._history[n].offset);
 			return ret;
 		},
+
 		offsetSamplesBest: function() {
-			var ret = [];
+			var a = [];
 			if (this._history.length === 0)
 				return ret;
-			if (this._history.length === 1) {
-				ret.push(this._history[0].offset);
-				return ret; }
-			if (this._history.length === 2) {
-				ret.push(this._history[0].offset);
-				ret.push(this._history[1].offset);
-				return ret; }
+			if (this._history.length === 1)
+				return [ this._history[0].offset ];
+			if (this._history.length === 2)
+				return [
+					this._history[0].offset,
+					this._history[1].offset,
+				];
 			const NDISCARD_COUNT = Math.ceil(this._history.length*this.NDISCARDPERCENT/100);
 			const TARGET_COUNT = this._history.length - NDISCARD_COUNT;
 
 			for (var n = 0; n < this._history.length; ++n)
-				ret.push(this._history[n].offset);
-			ret.sort();
+				a.push(this._history[n]);
+			a.sort((a,b)=>a.roundtrip_ms-b.roundtrip_ms);
 
-			while (ret.length > TARGET_COUNT)
-				if (Math.abs(ret[0]) > Math.abs(ret[ret.length-1]))
-					ret.shift();
-				else
-					ret.pop();
+			var ret = [];
+
+			for (var n = 0; n < TARGET_COUNT; ++n)
+				ret.push(a[n].offset);
 
 			return ret;
 		},
