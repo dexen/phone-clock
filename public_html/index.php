@@ -165,12 +165,15 @@ var cfg_theme = localStorage.getItem('cfg_theme') || 0;
 cfg_theme = Number(cfg_theme) || 0;
 
 function toggleTheme(increment) {
-	var xtheme = ['--theme-main-color', '--theme-vfd-main-color'];
-	cfg_theme = (cfg_theme+increment)%xtheme.length;
+	var xtheme = ['--theme-red-main-color', '--theme-vfd-main-color'];
+	var xthemes = ['--theme-red-subdued-color', '--theme-vfd-subdued-color'];
+	cfg_theme = (cfg_theme+increment+xtheme.length)%xtheme.length;
 	localStorage.setItem('cfg_theme', cfg_theme);
 	var r = document.querySelector(':root');
 	var vv = window.getComputedStyle(r).getPropertyValue(xtheme[cfg_theme]);
+	var vvs = window.getComputedStyle(r).getPropertyValue(xthemes[cfg_theme]);
 	r.style.setProperty('--main-color', vv);
+	r.style.setProperty('--subdued-color', vvs);
 };
 toggleTheme(+0);
 function advanceTheme() { toggleTheme(+1); }
@@ -510,6 +513,25 @@ function POORMANSNTP_TO()
 			advanceTheme();
 			;
 	};
+
+				document.body.addEventListener("keydown", function(Ev) {
+					switch (Ev.target.tagName) {
+					case "input":
+					case "INPUT":
+					case "textarea":
+					case "TEXTAREA":
+						return;
+					default:
+						break; }
+
+					switch (Ev.keyCode) {
+					case 0x25: /* arrow left key */
+						return toggleTheme(-1);
+					case 0x27: /* arrow right key */
+						return toggleTheme(+1);
+					default:
+						return; }
+				}, {passive:true});
 
 	document.documentElement.addEventListener('touchstart', e => {
 		touchstartX = e.changedTouches[0].screenX;
