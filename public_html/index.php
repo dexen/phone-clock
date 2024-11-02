@@ -22,6 +22,8 @@ function config_hint_dev_p() : bool { return strpos($_SERVER['SCRIPT_URI'], 'dev
 	--theme-red-subdued-color: #300;
 	--theme-vfd-main-color: #06cf93;
 	--theme-vfd-subdued-color: #013324;
+	--theme-lavender-main-color: hsl(289.86deg, 57.72%, 75.88%);
+	--theme-lavender-subdued-color: hsl(289.86deg, 57.72%, 10%);
 	--theme-dev-main-color: #00f;
 	--theme-main-color: <?= config_hint_dev_p() ? 'var(--theme-dev-main-color)' : 'var(--theme-red-main-color)' ?>;
 	--main-color: var(--theme-red-main-color);
@@ -165,8 +167,8 @@ var cfg_theme = localStorage.getItem('cfg_theme') || 0;
 cfg_theme = Number(cfg_theme) || 0;
 
 function toggleTheme(increment) {
-	var xtheme = ['--theme-red-main-color', '--theme-vfd-main-color'];
-	var xthemes = ['--theme-red-subdued-color', '--theme-vfd-subdued-color'];
+	var xtheme = ['--theme-red-main-color', '--theme-vfd-main-color', '--theme-lavender-main-color', ];
+	var xthemes = ['--theme-red-subdued-color', '--theme-vfd-subdued-color', '--theme-lavender-subdued-color', ];
 	cfg_theme = (cfg_theme+increment+xtheme.length)%xtheme.length;
 	localStorage.setItem('cfg_theme', cfg_theme);
 	var r = document.querySelector(':root');
