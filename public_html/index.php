@@ -10,7 +10,7 @@ function config_hint_dev_p() : bool { return strpos($_SERVER['SCRIPT_URI'], 'dev
 <html>
 <head>
 <title>Precise Clock # Sub-1 frame precision</title>
-<meta name="description" content="Digital Clock. Sub-1 frame precision on 120 Hz displays achieved thanks to simplified variant of NTP algorithm. An installable web app."
+<meta name="description" content="Digital Clock. Sub-1 frame precision on 120 Hz displays achieved thanks to simplified variant of NTP algorithm. An installable web app.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0">
 <meta name="theme-color" content="#000">
 <link rel="manifest" href="manifest-phone-clock.webmanifest?<?= U(filemtime('manifest-phone-clock.webmanifest')) ?>">
