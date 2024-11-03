@@ -469,7 +469,7 @@ function POORMANSNTP_TO()
 		if (theDatetime.getMilliseconds() > 900)
 			window.setTimeout(
 				displayTime,
-				1001-theDatetime.getMilliseconds() );
+				999-theDatetime.getMilliseconds() );
 	};
 
 	window.reconfigureSecondaryDisplay = function() {
