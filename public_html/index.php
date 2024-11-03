@@ -385,12 +385,26 @@ function numConstWidth3d2(num)
 	return str.padStart(6);
 }
 
+function numConstWidth3d1(num)
+{
+	var str = String(num.toFixed(1));
+	return str.padStart(5);
+}
+
 function numConstWidth5(num)
 {
 	var str = String(num.toFixed(0));
 	if (str === '-0')
 		str = '0';
 	return str.padStart(5);
+}
+
+function renderOA(num)
+{
+	if (num >= 10)
+		return numConstWidth5(num);
+	else
+		return numConstWidth3d1(num);
 }
 
 function POORMANSNTP2(Ev)
@@ -423,11 +437,11 @@ function POORMANSNTP2(Ev)
 	THE_CORRECTION = 0;
 	if (cfg_tristate_secondary_display) {
 		THE_CORRECTION = oaBEST;
-		var note = 'correction: ' + numConstWidth5(oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS); }
+		var note = 'correction: ' + renderOA(oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS); }
 	else if (oaBEST >= 0)
-		var note = 'LATE: ' + numConstWidth5(oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS);
+		var note = 'LATE: ' + renderOA(oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS);
 	else
-		var note = 'EARLY: ' + numConstWidth5(-oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS);
+		var note = 'EARLY: ' + renderOA(-oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS);
 	theServerdiffEl.innerHTML = note;
 };
 
