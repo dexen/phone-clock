@@ -132,6 +132,7 @@ body {
 	background: black;
 }
 </style>
+<link rel="icon" href="favicon.ico" />
 </head>
 <body>
 <center id="the-phone-clock">

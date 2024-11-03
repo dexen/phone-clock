@@ -1,0 +1,2 @@
+dimensions based off of https://atlasiko.com/blog/web-development/favicon-size/
+also used for icons/icon-192x192.png
