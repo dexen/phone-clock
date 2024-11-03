@@ -388,6 +388,8 @@ function numConstWidth3d2(num)
 function numConstWidth3d1(num)
 {
 	var str = String(num.toFixed(1));
+	if (str === '-0.0')
+		str = '0.0';
 	return str.padStart(5);
 }
 
