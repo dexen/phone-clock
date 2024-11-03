@@ -256,20 +256,6 @@ console.log('could not obtain wake lock');
 	var jittersamples = [];
 	var THE_CORRECTION = 0;
 
-/// DELETEME
-function updateCalcRms(samples, nsamples, newValue)
-{
-	while (samples.length >= nsamples)
-		samples.shift();
-	samples.push(newValue);
-
-	var acc = 0;
-	for (var n = samples.length-1; n>=0; --n)
-		acc = acc + samples[n]*samples[n];
-
-	return Math.sqrt((1/samples.length) * acc);
-};
-
 
 function calcRms(averageValue, samples)
 {
@@ -281,20 +267,6 @@ function calcRms(averageValue, samples)
 
 	return Math.sqrt((1/samples.length) * acc);
 }
-
-/// DELETEME
-function updateCalcAvg(samples, nsamples, newValue)
-{
-	while (samples.length >= nsamples)
-		samples.shift();
-	samples.push(newValue);
-
-	var acc = 0;
-	for (var n = samples.length-1; n>=0; --n)
-		acc = acc + samples[n];
-
-	return acc/samples.length;
-};
 
 function calcAvg(samples)
 {
@@ -433,9 +405,6 @@ function POORMANSNTP2(Ev)
 	var oaBEST = calcAvg(POORMANSNTP.OffsetSampling.offsetSamplesBest());
 
 	//var offsetaverage = calcAvg(POORMANSNTP.OffsetSampling.offsetSamples());
-/// FIXME - use jitter calculated from *best* samples, rather than from all
-	//const jitter = offset-offsetaverage;
-	//var RMS = updateCalcRms(jittersamples, NSAMPLES, jitter);
 	//POORMANSNTP.OffsetSampling.fixupJitter(jitter);
 	var RMS = calcRms(oaBEST, POORMANSNTP.OffsetSampling.offsetSamplesBest());
 
