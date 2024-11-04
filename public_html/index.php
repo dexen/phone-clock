@@ -468,7 +468,8 @@ function POORMANSNTP_TO()
 		if (theDatetime.getMilliseconds() > 900)
 			window.setTimeout(
 				displayTime,
-				999-theDatetime.getMilliseconds() );
+				/// CAREFUL: this 1001 guards against rendering incomplete seconds, showing as two-second jump in time
+				1001-theDatetime.getMilliseconds() );
 	};
 
 	window.reconfigureSecondaryDisplay = function() {
