@@ -428,7 +428,7 @@ function POORMANSNTP_TO()
 	function displayTime() {
 		var theDatetime = new Date();
 		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
-		theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 100;
+		// theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 1000;
 		theTimeValueEl.innerHTML = timeAsText(theDatetime);
 
 			// FIXME move out of timing sensitive path
