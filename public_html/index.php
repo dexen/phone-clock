@@ -328,13 +328,8 @@ var POORMANSNTP = {
 				return [];
 			if (this._history.length === 1)
 				return [ this._history[0].offset ];
-			if (this._history.length === 2)
-				return [
-					this._history[0].offset,
-					this._history[1].offset,
-				];
-			const NDISCARD_COUNT = Math.ceil(this._history.length*this.NDISCARDPERCENT/100);
-			const TARGET_COUNT = this._history.length - NDISCARD_COUNT;
+			const NDISCARD_COUNT = Math.round(this._history.length*this.NDISCARDPERCENT/100);
+			const TARGET_COUNT = Math.max(2, this._history.length - NDISCARD_COUNT);
 
 			for (var n = 0; n < this._history.length; ++n)
 				a.push(this._history[n]);
