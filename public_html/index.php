@@ -429,6 +429,7 @@ function POORMANSNTP_TO()
 		theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 100;
 		theTimeValueEl.innerHTML = timeAsText(theDatetime);
 
+			// FIXME move out of timing sensitive path
 		var Fmt = new Intl.DateTimeFormat(undefined, {weekday: 'long'});
 		theDateDayNameEl.innerHTML = Fmt.format(theDatetime);
 		theDateValueEl.innerHTML = dateAsText(theDatetime);
