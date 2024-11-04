@@ -325,7 +325,7 @@ var POORMANSNTP = {
 		offsetSamplesBest: function() {
 			var a = [];
 			if (this._history.length === 0)
-				return ret;
+				return [];
 			if (this._history.length === 1)
 				return [ this._history[0].offset ];
 			if (this._history.length === 2)
