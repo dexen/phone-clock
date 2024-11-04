@@ -149,7 +149,8 @@ body {
 	<fieldset class="tpc-date-display" style="display: none">
 		<a href="#" onclick="tristateSecondaryDisplay(); return false;" style="display: flex; width: 100%">
 			<div class="tpc-date-value" style="text-align: left; flex: 1; margin-left: .33ex;">--</div>
-			<div class="tpc-day-name-value" style="text-align: right; flex: 2; margin-right: .33ex;">--</div>
+			<div class="tpc-activity-display" style="text-align: center; flex: 0.166;">--</div>
+			<div class="tpc-day-name-value" style="text-align: right; flex: 1; margin-right: .33ex;">--</div>
 		</a>
 	</fieldset>
 	<fieldset class="tpc-debug-display" style="display: block;">
@@ -245,6 +246,7 @@ console.log('could not obtain wake lock');
 	var theBatteryBatteryBoxEl = thePhoneClockEl.getElementsByClassName('tpc-battery-battery-box')[0];
 	var theBatteryBatteryFillEl = thePhoneClockEl.getElementsByClassName('tpc-battery-battery-fill')[0];
 	var theDateEl = thePhoneClockEl.getElementsByClassName('tpc-date-display')[0];
+	var theActivityDisplayEl = theDateEl.getElementsByClassName('tpc-activity-display')[0];
 	var theDateDayNameEl = theDateEl.getElementsByClassName('tpc-day-name-value')[0];
 	var theDateValueEl = theDateEl.getElementsByClassName('tpc-date-value')[0];
 
@@ -433,6 +435,7 @@ function POORMANSNTP_TO()
 		var Fmt = new Intl.DateTimeFormat(undefined, {weekday: 'long'});
 		theDateDayNameEl.innerHTML = Fmt.format(theDatetime);
 		theDateValueEl.innerHTML = dateAsText(theDatetime);
+		theActivityDisplayEl.innerHTML = POORMANSNTP.OffsetSampling.recencyIndicator;
 
 		window.setTimeout(POORMANSNTP_TO, 11);
 	};
