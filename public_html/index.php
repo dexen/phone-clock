@@ -5,8 +5,11 @@ header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
 header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 header('Pragma: no-cache');
 function config_hint_dev_p() : bool { return strncmp($_SERVER['SERVER_NAME'], 'dev.', 4) !== false; }
-	# pre-warm the script
-$load_time = file_get_contents('https://dexen.me/clock/server-time.php');
+	# prewarm the script
+	# in shutdown function to avoid waiting on it
+register_shutdown_function(function() {
+	$load_time = file_get_contents('https://dexen.me/clock/server-time.php?prewarm=1');
+});
 ?>
 <!DOCTYPE html>
 <html>
