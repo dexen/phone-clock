@@ -541,3 +541,4 @@ function POORMANSNTP_TO()
 	heartbeatTimer = window.setInterval(heartbeat, 1);
 })(document.getElementById('the-phone-clock'));
 </script>
+<nav class="footer"></nav>
