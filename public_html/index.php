@@ -596,11 +596,6 @@ body.background-image .header-menu > .action-bg-set {
 	const buttonClear = document.querySelector('.action-bg-clear');
 	const inputFile = document.querySelector('input[name="bg-image"]');
 
-	if (buttonSet)
-		buttonSet.onclick = function() {
-			inputFile.click();
-		};
-
 	if (buttonClear)
 		buttonClear.onclick = function() {
 			document.body.style['background-image'] = '';
