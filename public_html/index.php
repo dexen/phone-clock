@@ -133,6 +133,9 @@ body {
 	align-items: center;
 	justify-content: center;
 	background: black;
+	background-position-x: center;
+	background-position-y: center;
+	background-size: cover;
 }
 </style>
 <link rel="icon" href="favicon.ico" />
@@ -541,4 +544,79 @@ function POORMANSNTP_TO()
 	heartbeatTimer = window.setInterval(heartbeat, 1);
 })(document.getElementById('the-phone-clock'));
 </script>
+
+<style>
+.header-menu {
+	display: block;
+	position: absolute;
+	top: 1ex;
+	right: 1ex;
+	border: .66ex solid red;
+	border-bottom: none;
+	border-left: none;
+	border-color: var(--main-color);
+}
+.header-menu > a,
+.header-menu > label {
+	color: red;
+	color: var(--main-color);
+	fonte-weight: bold;
+	font-family: mono;
+	text-decoration: none;
+}
+
+body .header-menu > .action-bg-clear {
+	padding: 2ex;
+	display: none;
+}
+body .header-menu > .action-bg-set {
+	padding: 2ex;
+	display: block;
+}
+body.background-image .header-menu > .action-bg-clear {
+	display: block;
+}
+body.background-image .header-menu > .action-bg-set {
+	display: none;
+}
+</style>
+<nav class="header-menu">
+	<label class="action-bg-set">
+		#BG#
+		<div style="display:none">
+		<input type="file" name="bg-image" accept="image/png, image/jpeg"/>
+		</div>
+	</label>
+	<a href="#" class="action-bg-clear">&gt;BLACK&lt;</a>
+</nav>
 <nav class="footer"></nav>
+<script>
+(function() {
+	const buttonSet = document.querySelector('.action-bg-set');
+	const buttonClear = document.querySelector('.action-bg-clear');
+	const inputFile = document.querySelector('input[name="bg-image"]');
+
+	if (buttonSet)
+		buttonSet.onclick = function() {
+			inputFile.click();
+		};
+
+	if (buttonClear)
+		buttonClear.onclick = function() {
+			document.body.style['background-image'] = '';
+			document.body.classList.remove('background-image');
+		}
+
+	const reader = new FileReader();
+	reader.addEventListener('load', () => {
+		document.body.style['background-image'] = 'linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(' + reader.result + ')';
+		document.body.classList.add('background-image');
+	});
+
+	inputFile.onchange = function() {
+		if (inputFile.files[0])
+			reader.readAsDataURL(inputFile.files[0]);
+	};
+
+ })();
+</script>
