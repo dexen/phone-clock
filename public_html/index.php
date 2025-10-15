@@ -4,7 +4,7 @@ function U(string $str) { return rawurlencode($str); }
 header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
 header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
 header('Pragma: no-cache');
-function config_hint_dev_p() : bool { return strncmp($_SERVER['SERVER_NAME'], 'dev.', 4) !== false; }
+function config_hint_dev_p() : bool { return strncmp($_SERVER['HTTP_HOST'], 'dev.', 4) === 0; }
 	# prewarm the script
 	# in shutdown function to avoid waiting on it
 register_shutdown_function(function() {
@@ -14,7 +14,7 @@ register_shutdown_function(function() {
 <!DOCTYPE html>
 <html>
 <head>
-<title>Precise Clock # Sub-1 frame precision</title>
+<title><?= config_hint_dev_p() ? 'DEV ' : '' ?>Precise Clock # Sub-1 frame precision</title>
 <meta name="description" content="Digital Clock. Sub-1 frame precision on 120 Hz displays achieved thanks to simplified variant of NTP algorithm. An installable web app.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0,  minimum-scale=1.0">
 <meta name="theme-color" content="#000">
