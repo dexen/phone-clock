@@ -598,14 +598,20 @@ body.background-image .header-menu > .action-bg-set {
 
 	if (buttonClear)
 		buttonClear.onclick = function() {
+			localStorage.removeItem('background-image-data-url');
 			document.body.style['background-image'] = '';
 			document.body.classList.remove('background-image');
 		}
 
+	function setBgImageDataUrl(dataUrl) {
+		localStorage.setItem('background-image-data-url', dataUrl);
+		document.body.style['background-image'] = 'linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(' + dataUrl + ')';
+		document.body.classList.add('background-image');
+	};
+
 	const reader = new FileReader();
 	reader.addEventListener('load', () => {
-		document.body.style['background-image'] = 'linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(' + reader.result + ')';
-		document.body.classList.add('background-image');
+		setBgImageDataUrl(reader.result);
 	});
 
 	inputFile.onchange = function() {
@@ -613,5 +619,7 @@ body.background-image .header-menu > .action-bg-set {
 			reader.readAsDataURL(inputFile.files[0]);
 	};
 
+	if (localStorage.getItem('background-image-data-url'))
+		setBgImageDataUrl(localStorage.getItem('background-image-data-url'));
  })();
 </script>
