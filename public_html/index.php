@@ -7,8 +7,10 @@ header('Pragma: no-cache');
 function config_hint_dev_p() : bool { return strncmp($_SERVER['HTTP_HOST'], 'dev.', 4) === 0; }
 	# prewarm the script
 	# in shutdown function to avoid waiting on it
+	## seems it's causing delays on the current hosting
+if (false)
 register_shutdown_function(function() {
-	$load_time = file_get_contents('https://dexen.me/clock/server-time.php?prewarm=1');
+	$load_time = file_get_contents('https://dexen.me/clock/server-time.php?prewarm=2');
 });
 ?>
 <!DOCTYPE html>
