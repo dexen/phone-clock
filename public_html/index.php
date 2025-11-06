@@ -392,7 +392,7 @@ function renderOA(num)
 function POORMANSNTP2(Ev)
 {
 	var NSAMPLES = 63;
-	var rqend = Ev.timeStamp;
+	var rqend = performance.now();
 	var rqroundtrip = rqend - this.rqstart;
 	var rqmidpoint = rqroundtrip/2;
 	var response = this.rq.responseText;
