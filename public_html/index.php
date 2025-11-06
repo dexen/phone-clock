@@ -493,7 +493,12 @@ function POORMANSNTP_TO()
 	};
 
 	reconfigureSecondaryDisplay();
-	displayTime();
+		// reduce occurence of initial long GET /server-time.php in firefox (~30-40ms)
+		// by using hand-picked .setTimeout() based delay
+		// this co-works with the subsequent .setInterval(heartbeat)
+		// sadly does not eliminate the problem entirely (FIXME monitor & eliminate)
+		// alternatively just discard the first load as highly jittery
+	window.setTimeout(displayTime, 11);
 
 	var touchstartX; var touchstartY; var touchendX; var touchendY;
 	const threshold = 72; // px
@@ -543,7 +548,12 @@ function POORMANSNTP_TO()
 	});
 
 
-	heartbeatTimer = window.setInterval(heartbeat, 1);
+		// reduce occurence of initial long GET /server-time.php in firefox (~30-40ms)
+		// by using hand-picked .setInterval() based delay
+		// this co-works with the earlier .setTimeout(displayTime)
+		// sadly does not eliminate the problem entirely (FIXME monitor & eliminate)
+		// alternatively just discard the first load as highly jittery
+	heartbeatTimer = window.setInterval(heartbeat, 111);
 })(document.getElementById('the-phone-clock'));
 </script>
 
