@@ -457,7 +457,7 @@ function POORMANSNTP_TO()
 				return; }
 
 			navigator.getBattery().then((battery) => {
-				if (battery.chargingTime < 0)
+				if (battery.chargingTime == 0)
 					visibility = 'hidden';
 				else {
 					visibility = 'visible';
