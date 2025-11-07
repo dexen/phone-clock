@@ -438,22 +438,48 @@ function POORMANSNTP_TO()
 	};
 
 	var batteryDisplay = {
-		isVisible: false,
-		latestState: undefined,
+		latest: {
+			visibility: null,
+			levelHTML: null,
+			fillWidthCSS: null,
+			fillHTML: null,
+		},
 		updateDisplayBattery: function () {
-			if (navigator.getBattery) {
-/// FIXME: use levelchange event instead
-				theBatteryDisplayEl.style.visibility = 'visible';
-				navigator.getBattery().then((battery) => {
-					if (battery.chargingTime == 0)
-						theBatteryDisplayEl.style.visibility = 'hidden';
-					theBatteryLevelEl.innerHTML = Math.round(battery.level * 100) + '%';
-					theBatteryBatteryFillEl.style.width = (battery.level * 2.77) + 'ex';
+			let visibility = this.latest.visibility;
+			let levelHTML = this.latest.levelHTML;
+			let fillWidthCSS = this.latest.fillWidthCSS;
+			let fillHTML = this.latest.fillHTML;
+
+			if (!navigator.getBattery) {
+				visibility = 'hidden';
+				if (this.latest.visibility !== visibility)
+					theBatteryDisplayEl.style.visibility = this.latest.visibility = visibility;
+				return; }
+
+			navigator.getBattery().then((battery) => {
+				if (battery.chargingTime < 0)
+					visibility = 'hidden';
+				else {
+					visibility = 'visible';
+					levelHTML = Math.round(battery.level * 100) + '%';
+					fillWidthCSS = (battery.level * 2.77) + 'ex';
 					if (battery.charging)
-						theBatteryBatteryFillEl.innerHTML = '<div style="position: absolute; top: -2.63ex; right: .2ex; font-weight: bold; font-size: 66%">+</div>';
+						fillHTML = '<div style="position: absolute; top: -2.63ex; right: .2ex; font-weight: bold; font-size: 66%">+</div>';
 					else
-						theBatteryBatteryFillEl.innerHTML = null;
-				}); }
+						fillHTML = null; }
+				if (visibility === 'hidden') {
+					if (this.latest.visibility !== visibility)
+						theBatteryDisplayEl.style.visibility = this.latest.visibility = visibility; }
+				else {
+					if (this.latest.visibility !== visibility)
+						theBatteryDisplayEl.style.visibility = this.latest.visibility = visibility;
+					if (this.latest.levelHTML !== levelHTML)
+						theBatteryLevelEl.innerHTML = this.latest.levelHTML = levelHTML;
+					if (this.latest.fillWidthCSS !== fillWidthCSS)
+						theBatteryBatteryFillEl.style.width = this.latest.fillWidthCSS = fillWidthCSS;
+					if (this.latest.fillHTML !== fillHTML)
+						theBatteryBatteryFillEl.innerHTML = this.latest.fillHTML = fillHTML; }
+			});
 		},
 	};
 
