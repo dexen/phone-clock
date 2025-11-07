@@ -164,9 +164,6 @@ body {
 	<fieldset class="tpc-debug-display" style="display: block;">
 		<a href="#" onclick="this.dispatchEvent(new Event('preciseclock.tristateSecondaryDisplay', {bubbles: true})); return false;">
 		<span class="tpc-display-jitter-value" style="display: none;">-222</span>
-		<span style="display: none;">;;</span>
-		<span class="tpc-heartbeat-jitter-value" style="display: none;">-333</span>
-		<span style="display: none;">//</span>
 		<span class="tpc-serverdiff-value">-444</span>
 		</a>
 	</fieldset>
@@ -240,7 +237,6 @@ console.log('could not obtain wake lock');
 	var theTimeValueEl = thePhoneClockEl.getElementsByClassName('tpc-time-value')[0];
 	var theDebugEl = thePhoneClockEl.getElementsByClassName('tpc-debug-display')[0];
 	var theDisplayJitterValueEl = theDebugEl.getElementsByClassName('tpc-display-jitter-value')[0];
-	var theHeartbeatJitterValueEl = theDebugEl.getElementsByClassName('tpc-heartbeat-jitter-value')[0];
 	var theServerdiffEl = theDebugEl.getElementsByClassName('tpc-serverdiff-value')[0];
 	var theBatteryDisplayEl = thePhoneClockEl.getElementsByClassName('tpc-battery-display')[0];
 	var theBatteryLevelEl = thePhoneClockEl.getElementsByClassName('tpc-battery-value')[0];
@@ -452,7 +448,6 @@ function POORMANSNTP_TO()
 			window.clearInterval(heartbeatTimer);
 			heartbeatTimer = window.setInterval(heartbeat, 100);
 		}
-		theHeartbeatJitterValueEl.innerHTML = xjitter;
 		if (navigator.getBattery) {
 /// FIXME: use levelchange event instead
 			theBatteryDisplayEl.style.visibility = 'visible';
