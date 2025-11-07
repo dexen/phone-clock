@@ -436,18 +436,8 @@ function POORMANSNTP_TO()
 
 		window.setTimeout(POORMANSNTP_TO, 11);
 	};
-	function heartbeat() {
-		var theDatetime = new Date();
-		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
-		var xjitter = theDatetime.getMilliseconds() % 100;
-		if (xjitter > 60) {
-			window.clearInterval(heartbeatTimer);
-			heartbeatTimer = window.setInterval(heartbeat, 98);
-		}
-		else if (xjitter < 40) {
-			window.clearInterval(heartbeatTimer);
-			heartbeatTimer = window.setInterval(heartbeat, 100);
-		}
+
+	function updateDisplayBattery() {
 		if (navigator.getBattery) {
 /// FIXME: use levelchange event instead
 			theBatteryDisplayEl.style.visibility = 'visible';
@@ -461,6 +451,21 @@ function POORMANSNTP_TO()
 				else
 					theBatteryBatteryFillEl.innerHTML = null;
 			}); }
+	};
+
+	function heartbeat() {
+		var theDatetime = new Date();
+		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
+		var xjitter = theDatetime.getMilliseconds() % 100;
+		if (xjitter > 60) {
+			window.clearInterval(heartbeatTimer);
+			heartbeatTimer = window.setInterval(heartbeat, 98);
+		}
+		else if (xjitter < 40) {
+			window.clearInterval(heartbeatTimer);
+			heartbeatTimer = window.setInterval(heartbeat, 100);
+		}
+		updateDisplayBattery();
 		if (theDatetime.getMilliseconds() > 900)
 			window.setTimeout(
 				displayTime,
