@@ -155,14 +155,14 @@ body {
 		<a href="qr.php" class="tpc-time-value">-1:-2:-3</a>
 	</fieldset>
 	<fieldset class="tpc-date-display" style="display: none">
-		<a href="#" onclick="tristateSecondaryDisplay(); return false;" style="display: flex; width: 100%">
+		<a href="#" onclick="this.dispatchEvent(new Event('preciseclock.tristateSecondaryDisplay', {bubbles: true})); return false;" style="display: flex; width: 100%">
 			<div class="tpc-date-value" style="text-align: left; flex: 1; margin-left: .33ex;">--</div>
 			<div class="tpc-activity-display" style="text-align: center; flex: 0.166;">--</div>
 			<div class="tpc-day-name-value" style="text-align: right; flex: 1; margin-right: .33ex;">--</div>
 		</a>
 	</fieldset>
 	<fieldset class="tpc-debug-display" style="display: block;">
-		<a href="#" onclick="tristateSecondaryDisplay(); return false;">
+		<a href="#" onclick="this.dispatchEvent(new Event('preciseclock.tristateSecondaryDisplay', {bubbles: true})); return false;">
 		<span class="tpc-display-jitter-value" style="display: none;">-222</span>
 		<span style="display: none;">;;</span>
 		<span class="tpc-heartbeat-jitter-value" style="display: none;">-333</span>
@@ -196,13 +196,6 @@ var cfg_tristate_secondary_display = localStorage.getItem('cfg_tristate_secondar
 if (cfg_tristate_secondary_display === null)
 	cfg_tristate_secondary_display = 1;
 cfg_tristate_secondary_display = Number(cfg_tristate_secondary_display);
-
-function tristateSecondaryDisplay() {
-	cfg_tristate_secondary_display = ((cfg_tristate_secondary_display+1+1)%3)-1;
-	localStorage.setItem('cfg_tristate_secondary_display', cfg_tristate_secondary_display);
-	window.reconfigureSecondaryDisplay();
-	window.updateDisplay();
-};
 
 (function(thePhoneClockEl) {
 	"use strict";
@@ -480,7 +473,7 @@ function POORMANSNTP_TO()
 				1001-theDatetime.getMilliseconds() );
 	};
 
-	window.reconfigureSecondaryDisplay = function() {
+	function reconfigureSecondaryDisplay() {
 		if (cfg_tristate_secondary_display>=0) {
 			theDateEl.style.display = 'none';
 			theDebugEl.style.display = ''; }
@@ -488,7 +481,8 @@ function POORMANSNTP_TO()
 			theDateEl.style.display = '';
 			theDebugEl.style.display = 'none'; }
 	};
-	window.updateDisplay = function() {
+
+	function updateDisplay() {
 		displayTime();
 	};
 
@@ -547,6 +541,14 @@ function POORMANSNTP_TO()
 		handleLeftRightGesture(e);
 	});
 
+	function tristateSecondaryDisplay() {
+		cfg_tristate_secondary_display = ((cfg_tristate_secondary_display+1+1)%3)-1;
+		localStorage.setItem('cfg_tristate_secondary_display', cfg_tristate_secondary_display);
+		reconfigureSecondaryDisplay();
+		updateDisplay();
+	}
+
+	thePhoneClockEl.addEventListener('preciseclock.tristateSecondaryDisplay', tristateSecondaryDisplay);
 
 		// reduce occurence of initial long GET /server-time.php in firefox (~30-40ms)
 		// by using hand-picked .setInterval() based delay
