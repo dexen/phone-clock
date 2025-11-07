@@ -437,7 +437,10 @@ function POORMANSNTP_TO()
 		window.setTimeout(POORMANSNTP_TO, 11);
 	};
 
-	function updateDisplayBattery() {
+	var batteryDisplay = {
+		isVisible: false,
+		latestState: undefined,
+		updateDisplayBattery: function () {
 		if (navigator.getBattery) {
 /// FIXME: use levelchange event instead
 			theBatteryDisplayEl.style.visibility = 'visible';
@@ -451,6 +454,11 @@ function POORMANSNTP_TO()
 				else
 					theBatteryBatteryFillEl.innerHTML = null;
 			}); }
+		},
+	};
+
+	function updateDisplayBattery() {
+		batteryDisplay.updateDisplayBattery();
 	};
 
 	function heartbeat() {
