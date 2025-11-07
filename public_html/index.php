@@ -483,10 +483,6 @@ function POORMANSNTP_TO()
 		},
 	};
 
-	function updateDisplayBattery() {
-		batteryDisplay.updateDisplayBattery();
-	};
-
 	function heartbeat() {
 		var theDatetime = new Date();
 		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
@@ -499,7 +495,7 @@ function POORMANSNTP_TO()
 			window.clearInterval(heartbeatTimer);
 			heartbeatTimer = window.setInterval(heartbeat, 100);
 		}
-		updateDisplayBattery();
+		batteryDisplay.updateDisplayBattery();
 		if (theDatetime.getMilliseconds() > 900)
 			window.setTimeout(
 				displayTime,
