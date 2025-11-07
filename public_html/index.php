@@ -441,19 +441,19 @@ function POORMANSNTP_TO()
 		isVisible: false,
 		latestState: undefined,
 		updateDisplayBattery: function () {
-		if (navigator.getBattery) {
+			if (navigator.getBattery) {
 /// FIXME: use levelchange event instead
-			theBatteryDisplayEl.style.visibility = 'visible';
-			navigator.getBattery().then((battery) => {
-				if (battery.chargingTime == 0)
-					theBatteryDisplayEl.style.visibility = 'hidden';
-				theBatteryLevelEl.innerHTML = Math.round(battery.level * 100) + '%';
-				theBatteryBatteryFillEl.style.width = (battery.level * 2.77) + 'ex';
-				if (battery.charging)
-					theBatteryBatteryFillEl.innerHTML = '<div style="position: absolute; top: -2.63ex; right: .2ex; font-weight: bold; font-size: 66%">+</div>';
-				else
-					theBatteryBatteryFillEl.innerHTML = null;
-			}); }
+				theBatteryDisplayEl.style.visibility = 'visible';
+				navigator.getBattery().then((battery) => {
+					if (battery.chargingTime == 0)
+						theBatteryDisplayEl.style.visibility = 'hidden';
+					theBatteryLevelEl.innerHTML = Math.round(battery.level * 100) + '%';
+					theBatteryBatteryFillEl.style.width = (battery.level * 2.77) + 'ex';
+					if (battery.charging)
+						theBatteryBatteryFillEl.innerHTML = '<div style="position: absolute; top: -2.63ex; right: .2ex; font-weight: bold; font-size: 66%">+</div>';
+					else
+						theBatteryBatteryFillEl.innerHTML = null;
+				}); }
 		},
 	};
 
