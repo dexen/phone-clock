@@ -437,8 +437,7 @@ function POORMANSNTP_TO()
 };
 
 	function updateDisplayTime() {
-		var theDatetime = new Date();
-		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
+		var theDatetime = new Date(window.performance.timeOrigin + window.performance.now()+THE_CORRECTION);
 		// theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 1000;
 		theTimeValueEl.innerHTML = timeAsText(theDatetime);
 
@@ -501,8 +500,7 @@ function POORMANSNTP_TO()
 	};
 
 	function heartbeat() {
-		var theDatetime = new Date();
-		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
+		var theDatetime = new Date(window.performance.timeOrigin + window.performance.now()+THE_CORRECTION);
 		var xjitter = theDatetime.getMilliseconds() % 100;
 		if (xjitter > 60) {
 			window.clearInterval(heartbeatTimer);
