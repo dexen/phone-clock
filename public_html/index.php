@@ -258,6 +258,8 @@ function calcRms(averageValue, samples)
 {
 	if (samples.length === 0)
 		return null;
+	if (samples.length === 1)
+		return null;
 	var acc = 0;
 	for (var n = samples.length-1; n>=0; --n) {
 		var v = samples[n]-averageValue;
