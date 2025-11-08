@@ -256,6 +256,8 @@ console.log('could not obtain wake lock');
 
 function calcRms(averageValue, samples)
 {
+	if (samples.length === 0)
+		return null;
 	var acc = 0;
 	for (var n = samples.length-1; n>=0; --n) {
 		var v = samples[n]-averageValue;
@@ -267,6 +269,8 @@ function calcRms(averageValue, samples)
 
 function calcAvg(samples)
 {
+	if (samples.length === 0)
+		return null;
 	var acc = 0;
 	for (var n = samples.length-1; n>=0; --n)
 		acc = acc + samples[n];
@@ -348,12 +352,16 @@ var POORMANSNTP = {
 
 function numConstWidth3d2(num)
 {
+	if (num === null)
+		return '?'.padStart(6);
 	var str = String(num.toFixed(2));
 	return str.padStart(6);
 }
 
 function numConstWidth3d1(num)
 {
+	if (num === null)
+		return '?'.padStart(5);
 	var str = String(num.toFixed(1));
 	if (str === '-0.0')
 		str = '0.0';
@@ -362,6 +370,8 @@ function numConstWidth3d1(num)
 
 function numConstWidth5(num)
 {
+	if (num === null)
+		return '?'.padStart(5);
 	var str = String(num.toFixed(0));
 	if (str === '-0')
 		str = '0';
@@ -370,6 +380,8 @@ function numConstWidth5(num)
 
 function renderOA(num)
 {
+	if (num === null)
+		return '?'.padStart(5);
 	if (num >= 10)
 		return numConstWidth5(num);
 	else
