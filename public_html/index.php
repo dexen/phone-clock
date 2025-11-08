@@ -443,8 +443,6 @@ function POORMANSNTP_TO()
 		theDateDayNameEl.innerHTML = Fmt.format(theDatetime);
 		theDateValueEl.innerHTML = dateAsText(theDatetime);
 		theActivityDisplayEl.innerHTML = POORMANSNTP.OffsetSampling.recencyIndicator;
-
-		window.setTimeout(POORMANSNTP_TO, 11);
 	};
 
 	var batteryDisplay = {
@@ -493,6 +491,12 @@ function POORMANSNTP_TO()
 		},
 	};
 
+	function heartbeatWork() {
+		updateDisplayTime();
+		batteryDisplay.updateDisplayBattery();
+		window.setTimeout(POORMANSNTP_TO, 11);
+	};
+
 	function heartbeat() {
 		var theDatetime = new Date();
 		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
@@ -505,10 +509,9 @@ function POORMANSNTP_TO()
 			window.clearInterval(heartbeatTimer);
 			heartbeatTimer = window.setInterval(heartbeat, 100);
 		}
-		batteryDisplay.updateDisplayBattery();
 		if (theDatetime.getMilliseconds() > 900)
 			window.setTimeout(
-				updateDisplayTime,
+				heartbeatWork,
 				/// CAREFUL: this 1001 guards against rendering incomplete seconds, showing as two-second jump in time
 				1001-theDatetime.getMilliseconds() );
 	};
