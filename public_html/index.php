@@ -152,7 +152,7 @@ body {
 		
 	</fieldset>
 	<fieldset class="tpc-time-display">
-		<a href="qr.php" class="tpc-time-value">-1:-2:-3</a>
+		<a href="qr.php" class="tpc-time-value">&nbsp;&nbsp;:&nbsp;&nbsp;:&nbsp;&nbsp;</a>
 	</fieldset>
 	<fieldset class="tpc-date-display" style="display: none">
 		<a href="#" onclick="this.dispatchEvent(new Event('preciseclock.tristateSecondaryDisplay', {bubbles: true})); return false;" style="display: flex; width: 100%">
@@ -164,7 +164,7 @@ body {
 	<fieldset class="tpc-debug-display" style="display: block;">
 		<a href="#" onclick="this.dispatchEvent(new Event('preciseclock.tristateSecondaryDisplay', {bubbles: true})); return false;">
 		<span class="tpc-display-jitter-value" style="display: none;">-222</span>
-		<span class="tpc-serverdiff-value">-444</span>
+		<span class="tpc-serverdiff-value">&nbsp;</span>
 		</a>
 	</fieldset>
 </center>
@@ -248,8 +248,6 @@ console.log('could not obtain wake lock');
 	var theDateValueEl = theDateEl.getElementsByClassName('tpc-date-value')[0];
 
 	var heartbeatTimer = null;
-
-	theTimeValueEl.innerHTML = -1; // '-2:-3:-4';
 
 	var offsetsamples = [];
 	var jittersamples = [];
