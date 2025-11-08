@@ -495,8 +495,8 @@ function POORMANSNTP_TO()
 
 	function heartbeatWork() {
 		updateDisplayTime();
-		batteryDisplay.updateDisplayBattery();
-		window.setTimeout(POORMANSNTP_TO, 11);
+		window.setTimeout(()=>batteryDisplay.updateDisplayBattery(), 100);
+		window.setTimeout(POORMANSNTP_TO, 200);
 	};
 
 	function heartbeat() {
