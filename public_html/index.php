@@ -396,9 +396,9 @@ function POORMANSNTP2(Ev)
 	var rqend = performance.now();
 	var rqroundtrip = rqend - this.rqstart;
 	var rqmidpoint = rqroundtrip/2;
+	var localtimestamp = window.performance.timeOrigin + window.performance.now();
 	var response = this.rq.responseText;
 	var servertimestamp = new Number(response);
-	var localtimestamp = window.performance.timeOrigin + window.performance.now();
 	/// IMPROVEME: using rqmidpoint assumes symmetric transit time & reply generation time
 	/// this doesn't seem to work well when using phone tethering for network access
 	/// possibly due to asymmetric transit times?
