@@ -432,7 +432,7 @@ function POORMANSNTP_TO()
 	rq.send();
 };
 
-	function displayTime() {
+	function updateDisplayTime() {
 		var theDatetime = new Date();
 		theDatetime.setMilliseconds(theDatetime.getMilliseconds()+THE_CORRECTION);
 		// theDisplayJitterValueEl.innerHTML = theDatetime.getMilliseconds() % 1000;
@@ -508,7 +508,7 @@ function POORMANSNTP_TO()
 		batteryDisplay.updateDisplayBattery();
 		if (theDatetime.getMilliseconds() > 900)
 			window.setTimeout(
-				displayTime,
+				updateDisplayTime,
 				/// CAREFUL: this 1001 guards against rendering incomplete seconds, showing as two-second jump in time
 				1001-theDatetime.getMilliseconds() );
 	};
@@ -522,17 +522,13 @@ function POORMANSNTP_TO()
 			theDebugEl.style.display = 'none'; }
 	};
 
-	function updateDisplay() {
-		displayTime();
-	};
-
 	reconfigureSecondaryDisplay();
 		// reduce occurence of initial long GET /server-time.php in firefox (~30-40ms)
 		// by using hand-picked .setTimeout() based delay
 		// this co-works with the subsequent .setInterval(heartbeat)
 		// sadly does not eliminate the problem entirely (FIXME monitor & eliminate)
 		// alternatively just discard the first load as highly jittery
-	window.setTimeout(displayTime, 11);
+	window.setTimeout(updateDisplayTime, 11);
 
 	var touchstartX; var touchstartY; var touchendX; var touchendY;
 	const threshold = 72; // px
@@ -585,14 +581,14 @@ function POORMANSNTP_TO()
 		cfg_tristate_secondary_display = ((cfg_tristate_secondary_display+1+1)%3)-1;
 		localStorage.setItem('cfg_tristate_secondary_display', cfg_tristate_secondary_display);
 		reconfigureSecondaryDisplay();
-		updateDisplay();
+		updateDisplayTime();
 	}
 
 	thePhoneClockEl.addEventListener('preciseclock.tristateSecondaryDisplay', tristateSecondaryDisplay);
 
 		// reduce occurence of initial long GET /server-time.php in firefox (~30-40ms)
 		// by using hand-picked .setInterval() based delay
-		// this co-works with the earlier .setTimeout(displayTime)
+		// this co-works with the earlier .setTimeout(updateDisplayTime)
 		// sadly does not eliminate the problem entirely (FIXME monitor & eliminate)
 		// alternatively just discard the first load as highly jittery
 	heartbeatTimer = window.setInterval(heartbeat, 111);
