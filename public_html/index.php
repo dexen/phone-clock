@@ -421,6 +421,8 @@ function POORMANSNTP2(Ev)
 	else
 		var note = 'EARLY: ' + renderOA(-oaBEST) + ' ' + POORMANSNTP.OffsetSampling.recencyIndicator + ' jitter: ' + numConstWidth3d2(RMS);
 	theServerdiffEl.innerHTML = note;
+
+	theActivityDisplayEl.innerHTML = POORMANSNTP.OffsetSampling.recencyIndicator;
 };
 
 function POORMANSNTP_TO()
@@ -442,7 +444,6 @@ function POORMANSNTP_TO()
 		var Fmt = new Intl.DateTimeFormat(undefined, {weekday: 'long'});
 		theDateDayNameEl.innerHTML = Fmt.format(theDatetime);
 		theDateValueEl.innerHTML = dateAsText(theDatetime);
-		theActivityDisplayEl.innerHTML = POORMANSNTP.OffsetSampling.recencyIndicator;
 	};
 
 	var batteryDisplay = {
