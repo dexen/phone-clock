@@ -83,6 +83,8 @@ register_shutdown_function(function() {
 	font-style: italic;
 	color: #f00 !important;
 	color: var(--main-color) !important;
+	text-shadow: .133ex .133ex 1.33px #300;
+	text-shadow: .133ex .133ex 1.33px var(--subdued-color);
 }
 #the-phone-clock .tpc-date-display a {
 	color: inherit;
@@ -98,6 +100,8 @@ register_shutdown_function(function() {
 	font-style: italic;
 	color: #f00 !important;
 	color: var(--main-color) !important;
+	text-shadow: .133ex .133ex 1.33px #300;
+	text-shadow: .133ex .133ex 1.33px var(--subdued-color);
 }
 #the-phone-clock .tpc-debug-display .tpc-serverdiff-value {
 	white-space: pre;
