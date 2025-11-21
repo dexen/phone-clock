@@ -52,8 +52,8 @@ register_shutdown_function(function() {
 	color: #f00 !important;
 	color: var(--main-color) !important;
 	text-decoration: none !important;
-	text-shadow: 1vw 1vw 1.33px #300;
-	text-shadow: 1vw 1vw 1.33px var(--subdued-color);
+	text-shadow: .095ex .095ex 1.33px #300;
+	text-shadow: .095ex .095ex 1.33px var(--subdued-color);
 }
 #the-phone-clock .tpc-time-display a {
 	color: inherit;
